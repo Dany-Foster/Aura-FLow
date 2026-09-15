@@ -1,20 +1,57 @@
-import { Button } from "@/components/ui/button"
+import { BellRing, Plus, Search, Settings } from "lucide-react"
+import AppSidebar from "./components/ui/app-sidebar"
+import { Button } from "./components/ui/button"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "./components/ui/input-group"
+import PopoverProfil from "./components/ui/popover-profil"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarSeparator,
+  SidebarTrigger,
+} from "./components/ui/sidebar"
 
 export function App() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "19rem",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <header className="sticky flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
+          <SidebarTrigger className="ml-2" />
+          <div className="flex items-center justify-between gap-2">
+            <InputGroup className="w-xs">
+              <InputGroupInput placeholder="Rechercher vos produits, commandes, ...." />
+              <InputGroupAddon>
+                <Search className="size-4" />
+              </InputGroupAddon>
+            </InputGroup>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="icon">
+                <Plus className="size-4" />
+              </Button>
+              <Button variant="outline" size="icon">
+                <BellRing className="size-4" />
+              </Button>
+              <Button variant="outline" size="icon">
+                <Settings className="size-4" />
+              </Button>
+            </div>
+            <SidebarSeparator orientation="vertical" />
+
+            <PopoverProfil />
+          </div>
+        </header>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }
 
