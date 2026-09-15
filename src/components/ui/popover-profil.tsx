@@ -31,7 +31,7 @@ export default function PopoverProfil() {
           </Button>
         }
       />
-      <PopoverContent align="end" className="mt-2 min-w-40 py-2.5">
+      <PopoverContent align="end" className="mt-4 min-w-40 py-2.5">
         <PopoverHeader className="px-2.5">
           <div className="flex w-full items-center gap-4">
             <IconAvatar />

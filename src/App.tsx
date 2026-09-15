@@ -1,4 +1,4 @@
-import { BellRing, Plus, Search, Settings } from "lucide-react"
+import { BellRing, Palette, Plus, Search } from "lucide-react"
 import AppSidebar from "./components/ui/app-sidebar"
 import { Button } from "./components/ui/button"
 import {
@@ -16,14 +16,8 @@ import {
 
 export function App() {
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "19rem",
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar variant="inset" />
+    <SidebarProvider>
+      <AppSidebar variant="inset" collapsible="icon" />
       <SidebarInset>
         <header className="sticky flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
           <SidebarTrigger className="ml-2" />
@@ -42,7 +36,7 @@ export function App() {
                 <BellRing className="size-4" />
               </Button>
               <Button variant="outline" size="icon">
-                <Settings className="size-4" />
+                <Palette className="size-4" />
               </Button>
             </div>
             <SidebarSeparator orientation="vertical" />
