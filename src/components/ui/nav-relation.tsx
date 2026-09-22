@@ -20,7 +20,9 @@ export default function NavRelation({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-bold">RELATIONS</SidebarGroupLabel>
+      <SidebarGroupLabel className="text-bold text-bold text-xs text-muted-foreground">
+        RELATIONS
+      </SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-4">
         <SidebarMenu className="flex flex-col gap-2">
           {items.map((item) => (

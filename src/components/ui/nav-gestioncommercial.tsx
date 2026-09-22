@@ -20,7 +20,7 @@ export default function NavGestionCommercial({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-bold">
+      <SidebarGroupLabel className="text-bold text-xs text-muted-foreground">
         GESTION COMMERCIALE
       </SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-4">

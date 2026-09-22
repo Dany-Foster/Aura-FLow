@@ -1,34 +1,38 @@
 /* eslint-disable react-refresh/only-export-components */
+import { ThemeFont } from "@/lib/color-theme"
 import * as React from "react"
 
-type Theme = "dark" | "light" | "system"
+type Theme = "default" | "claude"
+type Mode = "dark" | "light" | "system"
 type ResolvedTheme = "dark" | "light"
+type ThemeMode = { theme: Theme; mode: Mode }
 
 type ThemeProviderProps = {
   children: React.ReactNode
   defaultTheme?: Theme
+  defaultMode?: Mode
   storageKey?: string
   disableTransitionOnChange?: boolean
 }
 
 type ThemeProviderState = {
-  theme: Theme
-  setTheme: (theme: Theme) => void
+  themeMode: ThemeMode
+  setTheme: (nextTheme: Theme, nextMode: Mode) => void
 }
 
 const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)"
-const THEME_VALUES: Theme[] = ["dark", "light", "system"]
+const MODE_THEME_VALUES: Mode[] = ["dark", "light", "system"]
 
 const ThemeProviderContext = React.createContext<
   ThemeProviderState | undefined
 >(undefined)
 
-function isTheme(value: string | null): value is Theme {
+function isMode(value: string | null): value is Mode {
   if (value === null) {
     return false
   }
 
-  return THEME_VALUES.includes(value as Theme)
+  return MODE_THEME_VALUES.includes(value as Mode)
 }
 
 /* Vérifie si le système est en mode dark ou light */
@@ -80,39 +84,59 @@ function isEditableTarget(target: EventTarget | null) {
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
-  storageKey = "theme",
+  defaultTheme = "default",
+  defaultMode = "system",
+  storageKey = "Theme",
   disableTransitionOnChange = true,
   ...props
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = React.useState<Theme>(() => {
-    const storedTheme = localStorage.getItem(storageKey)
-    if (isTheme(storedTheme)) {
+  const [themeMode, setThemeModeState] = React.useState<ThemeMode>(() => {
+    const storedTheme: ThemeMode | null = JSON.parse(
+      localStorage.getItem(storageKey) as string
+    )
+
+    if (!storedTheme || storedTheme == undefined) {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({ theme: defaultTheme, mode: defaultMode })
+      )
+      return { theme: defaultTheme, mode: defaultMode }
+    }
+
+    if (isMode(storedTheme.mode) && storedTheme.theme) {
       return storedTheme
     }
 
-    return defaultTheme
+    return { theme: defaultTheme, mode: defaultMode }
   })
 
   const setTheme = React.useCallback(
-    (nextTheme: Theme) => {
-      localStorage.setItem(storageKey, nextTheme)
-      setThemeState(nextTheme)
+    (nextTheme: Theme, nextMode: Mode) => {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({ theme: nextTheme, mode: nextMode })
+      )
+      setThemeModeState({ theme: nextTheme, mode: nextMode })
     },
     [storageKey]
   )
 
   const applyTheme = React.useCallback(
-    (nextTheme: Theme) => {
+    (nextTheme: Theme, nextMode: Mode) => {
       const root = document.documentElement
-      const resolvedTheme =
-        nextTheme === "system" ? getSystemTheme() : nextTheme
+      const resolvedTheme = nextMode === "system" ? getSystemTheme() : nextMode
       const restoreTransitions = disableTransitionOnChange
         ? disableTransitionsTemporarily()
         : null
 
-      root.classList.remove("light", "dark")
-      root.classList.add(resolvedTheme)
+      if (ThemeFont[nextTheme] === undefined) {
+        nextTheme = "default"
+      }
+      const theme = ThemeFont[nextTheme][resolvedTheme]
+
+      Object.entries(theme).forEach(([property, value]) => {
+        root.style.setProperty(property, value)
+      })
 
       if (restoreTransitions) {
         restoreTransitions()
@@ -122,15 +146,16 @@ export function ThemeProvider({
   )
 
   React.useEffect(() => {
-    applyTheme(theme)
+    const { theme, mode } = themeMode
+    applyTheme(theme, mode)
 
-    if (theme !== "system") {
+    if (mode !== "system") {
       return undefined
     }
 
     const mediaQuery = window.matchMedia(COLOR_SCHEME_QUERY)
     const handleChange = () => {
-      applyTheme("system")
+      applyTheme("default", "system")
     }
 
     mediaQuery.addEventListener("change", handleChange)
@@ -138,7 +163,7 @@ export function ThemeProvider({
     return () => {
       mediaQuery.removeEventListener("change", handleChange)
     }
-  }, [theme, applyTheme])
+  }, [themeMode, applyTheme])
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -158,17 +183,22 @@ export function ThemeProvider({
         return
       }
 
-      setThemeState((currentTheme) => {
-        const nextTheme =
-          currentTheme === "dark"
+      setThemeModeState((currentTheme) => {
+        const nextMode: Mode =
+          currentTheme.mode === "dark"
             ? "light"
-            : currentTheme === "light"
+            : currentTheme.mode === "light"
               ? "dark"
               : getSystemTheme() === "dark"
                 ? "light"
                 : "dark"
 
-        localStorage.setItem(storageKey, nextTheme)
+        const nextTheme = {
+          ...currentTheme,
+          mode: nextMode,
+        }
+
+        localStorage.setItem(storageKey, JSON.stringify(nextTheme))
         return nextTheme
       })
     }
@@ -190,12 +220,27 @@ export function ThemeProvider({
         return
       }
 
-      if (isTheme(event.newValue)) {
-        setThemeState(event.newValue)
-        return
+      try {
+        const storedTheme: unknown = JSON.parse(event.newValue as string)
+
+        if (
+          typeof storedTheme === "object" &&
+          storedTheme !== null &&
+          "theme" in storedTheme &&
+          "mode" in storedTheme &&
+          isMode(storedTheme.mode as Mode)
+        ) {
+          setThemeModeState(storedTheme as ThemeMode)
+          return
+        }
+      } catch {
+        console.log("parsing error")
       }
 
-      setThemeState(defaultTheme)
+      setThemeModeState({
+        theme: defaultTheme,
+        mode: defaultMode,
+      })
     }
 
     window.addEventListener("storage", handleStorageChange)
@@ -207,10 +252,10 @@ export function ThemeProvider({
 
   const value = React.useMemo(
     () => ({
-      theme,
+      themeMode,
       setTheme,
     }),
-    [theme, setTheme]
+    [themeMode, setTheme]
   )
 
   return (

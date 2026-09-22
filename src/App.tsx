@@ -1,4 +1,4 @@
-import { BellRing, Palette, Plus, Search } from "lucide-react"
+import { BellRing, Plus, Search } from "lucide-react"
 import AppSidebar from "./components/ui/app-sidebar"
 import { Button } from "./components/ui/button"
 import {
@@ -6,6 +6,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "./components/ui/input-group"
+import PalletteDrawer from "./components/ui/palette-drawer"
 import PopoverProfil from "./components/ui/popover-profil"
 import {
   SidebarInset,
@@ -16,10 +17,17 @@ import {
 
 export function App() {
   return (
-    <SidebarProvider>
-      <AppSidebar variant="inset" collapsible="icon" />
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 62)",
+          "--header-height": "calc(var(--spacing) * 14)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar variant="sidebar" collapsible="icon" />
       <SidebarInset>
-        <header className="sticky flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
+        <header className="sticky flex h-(--header-height) shrink-0 items-center justify-between gap-2 border-b px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) lg:px-3">
           <SidebarTrigger className="ml-2" />
           <div className="flex items-center justify-between gap-2">
             <InputGroup className="w-xs">
@@ -35,9 +43,7 @@ export function App() {
               <Button variant="outline" size="icon">
                 <BellRing className="size-4" />
               </Button>
-              <Button variant="outline" size="icon">
-                <Palette className="size-4" />
-              </Button>
+              <PalletteDrawer />
             </div>
             <SidebarSeparator orientation="vertical" />
 

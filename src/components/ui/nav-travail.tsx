@@ -20,7 +20,7 @@ export default function NavTravail({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-bold">
+      <SidebarGroupLabel className="text-bold text-xs text-muted-foreground">
         ESPACE DE TRAVAIL
       </SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-4">
