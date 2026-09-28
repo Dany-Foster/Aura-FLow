@@ -8,6 +8,12 @@ import {
   Settings,
 } from "lucide-react"
 import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "../ui/sidebar"
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -15,13 +21,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./dropdown-menu"
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "./sidebar"
+} from "../ui/dropdown-menu"
 
 const IconDropDownMenu = [Info, Settings, Cable]
 const Company = {
@@ -44,10 +44,10 @@ export default function EntrepriseMenu() {
                 <GalleryVerticalEnd className="size-4" />
               </div>
               <div className="grid flex-1 gap-1 text-left text-sm leading-tight">
-                <span className="truncate text-[12px] font-semibold">
+                <span className="truncate text-[14px] font-semibold">
                   {Company.name}
                 </span>
-                <span className="truncate text-[10px] font-medium">
+                <span className="truncate text-[12px] font-medium">
                   {Company.role}
                 </span>
               </div>

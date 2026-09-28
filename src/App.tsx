@@ -1,4 +1,5 @@
 import { BellRing, Plus, Search } from "lucide-react"
+import PalletteDrawer from "./components/components-custom/palette-drawer"
 import AppSidebar from "./components/ui/app-sidebar"
 import { Button } from "./components/ui/button"
 import {
@@ -6,7 +7,6 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "./components/ui/input-group"
-import PalletteDrawer from "./components/ui/palette-drawer"
 import PopoverProfil from "./components/ui/popover-profil"
 import {
   SidebarInset,

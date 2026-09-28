@@ -1,9 +1,9 @@
 import { datadropMenu } from "@/lib/data.type"
-import EntrepriseMenu from "./entreprise-menu"
-import NavGestionCommercial from "./nav-gestioncommercial"
-import NavParam from "./nav-param"
-import NavRelation from "./nav-relation"
-import NavTravail from "./nav-travail"
+import EntrepriseMenu from "../components-custom/entreprise-menu"
+import NavGestionCommercial from "../components-custom/nav-gestioncommercial"
+import NavParam from "../components-custom/nav-param"
+import NavRelation from "../components-custom/nav-relation"
+import NavTravail from "../components-custom/nav-travail"
 import {
   Sidebar,
   SidebarContent,

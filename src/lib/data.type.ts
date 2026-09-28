@@ -18,6 +18,7 @@ import {
   Van,
   Warehouse,
 } from "lucide-react"
+import type { ListColorType } from "./Type-data.type"
 
 export const datadropMenuEntreprise = [
   {
@@ -166,3 +167,78 @@ export const datadropMenu = {
     },
   ],
 }
+
+export const tabs = [
+  { value: "Couleur", label: "Couleur" },
+  { value: "Typographie", label: "Typographie" },
+  { value: "Radius", label: "Radius" },
+  { value: "Chart", label: "Chart" },
+  { value: "Shadow", label: "Shadow" },
+]
+
+export const ListColor: ListColorType[] = [
+  {
+    trigger: "primary",
+    title: "Couleur principal",
+    color: [
+      { name: "Couleur de fond", index: "--primary" },
+      { name: "Fond de texte", index: "--primary-foreground" },
+    ],
+  },
+  {
+    trigger: "secondary",
+    title: "Couleur secondaire",
+    color: [
+      { name: "Couleur de fond", index: "--secondary" },
+      { name: "Fond de texte", index: "--secondary-foreground" },
+    ],
+  },
+  {
+    trigger: "background",
+    title: "Fond de l'application",
+    color: [
+      { name: "Arrière-plan", index: "--background" },
+      { name: "Fond de texte", index: "--foreground" },
+    ],
+  },
+  {
+    trigger: "card",
+    title: "Fenêtres",
+    color: [
+      { name: "fond de card", index: "--card" },
+      { name: "Fond de texte", index: "--card-foreground" },
+    ],
+  },
+  {
+    trigger: "popver",
+    title: "Elements flottantes",
+    color: [
+      { name: "Fond de l'élément", index: "--popover" },
+      { name: "Fond de texte", index: "--popover-foreground" },
+    ],
+  },
+  {
+    trigger: "muted-element",
+    title: "Elements atténués",
+    color: [
+      { name: "Fond de l'élément", index: "--muted" },
+      { name: "Fond de texte", index: "--muted-foreground" },
+    ],
+  },
+  {
+    trigger: "accent",
+    title: "Accentuation",
+    color: [
+      { name: "Fond de l'élément", index: "--accent" },
+      { name: "Fond de texte", index: "--accent-foreground" },
+    ],
+  },
+  {
+    trigger: "destructive-element",
+    title: "Action de suppression",
+    color: [
+      { name: "Fond de l'élément", index: "--destructive" },
+      { name: "Fond de texte", index: "--destructive-foreground" },
+    ],
+  },
+]

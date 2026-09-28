@@ -1,7 +1,7 @@
 import { Palette, Shuffle } from "lucide-react"
 import { useState } from "react"
 import { useTheme } from "../theme-provider"
-import { Button } from "./button"
+import { Button } from "../ui/button"
 import {
   Drawer,
   DrawerClose,
@@ -11,8 +11,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "./drawer"
-import SelectTheme from "./select-theme"
+} from "../ui/drawer"
+import SelectTheme from "../ui/select-theme"
+import CustomisationPallette from "./customisation-pallette"
 
 export default function PalletteDrawer() {
   const [open, setOpen] = useState(false)
@@ -47,8 +48,9 @@ export default function PalletteDrawer() {
             <label className="block text-xs leading-6 font-semibold">
               Couleur de theme
             </label>
-            <div className="flex-1">
+            <div className="flex flex-1 items-center gap-2">
               <SelectTheme />
+              <CustomisationPallette />
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -82,9 +84,9 @@ export default function PalletteDrawer() {
         </div>
         <DrawerFooter>
           <div className="flex flex-row gap-2">
-            <Button className="flex-1">
+            <Button className="flex-1 items-center gap-4">
               <Shuffle className="size-4" />
-              Aléatoire
+              <span className="">ALEATOIRE</span>
             </Button>
             <DrawerClose
               render={<Button variant="outline" className="flex-1" />}

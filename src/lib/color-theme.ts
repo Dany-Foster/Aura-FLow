@@ -1,5 +1,6 @@
 export const ThemeFont = {
   default: {
+    base: ["oklch(0.5854 0.2041 277.1173)", "oklch(0.6801 0.1583 276.9349)"],
     light: {
       "--background": "oklch(0.9842 0.0034 247.8575)",
       "--foreground": "oklch(0.2795 0.0368 260.031)",
@@ -96,7 +97,6 @@ export const ThemeFont = {
       "--font-sans": "Inter, sans-serif",
       "--font-serif": "Merriweather, serif",
       "--font-mono": "JetBrains Mono, monospace",
-      "--font-heading": "Roboto, sans-serif",
       "--radius": "0.5rem",
       "--shadow-x": "0px",
       "--shadow-y": "4px",
@@ -117,10 +117,13 @@ export const ThemeFont = {
       "--shadow-xl":
         "0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 8px 10px -2px hsl(0 0% 0% / 0.1)",
       "--shadow-2xl": "0px 4px 8px -1px hsl(0 0% 0% / 0.25)",
+      "--tracking-normal": "0em",
+      "--spacing": "0.25rem",
     },
   },
 
   claude: {
+    base: ["oklch(0.205 0 0)", "oklch(0.6724 0.1308 38.7559)"],
     light: {
       "--background": "oklch(1 0 0)",
       "--foreground": "oklch(0.145 0 0)",
@@ -242,6 +245,8 @@ export const ThemeFont = {
       "--shadow-xl":
         "0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1)",
       "--shadow-2xl": "0 1px 3px 0px hsl(0 0% 0% / 0.25)",
+      "--tracking-normal": "0em",
+      "--spacing": "0.25rem",
     },
   },
 }

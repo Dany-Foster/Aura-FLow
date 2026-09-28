@@ -6,9 +6,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./sidebar"
+} from "../ui/sidebar"
 
-export default function NavRelation({
+export default function NavGestionCommercial({
   items,
 }: {
   items: {
@@ -20,8 +20,8 @@ export default function NavRelation({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-bold text-bold text-xs text-muted-foreground">
-        RELATIONS
+      <SidebarGroupLabel className="text-bold text-xs text-muted-foreground">
+        GESTION COMMERCIALE
       </SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-4">
         <SidebarMenu className="flex flex-col gap-2">

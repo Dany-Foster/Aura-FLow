@@ -6,9 +6,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./sidebar"
+} from "../ui/sidebar"
 
-export default function NavGestionCommercial({
+export default function NavTravail({
   items,
 }: {
   items: {
@@ -21,7 +21,7 @@ export default function NavGestionCommercial({
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="text-bold text-xs text-muted-foreground">
-        GESTION COMMERCIALE
+        ESPACE DE TRAVAIL
       </SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-4">
         <SidebarMenu className="flex flex-col gap-2">

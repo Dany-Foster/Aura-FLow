@@ -5,7 +5,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./sidebar"
+} from "../ui/sidebar"
 
 export default function NavParam({
   items,

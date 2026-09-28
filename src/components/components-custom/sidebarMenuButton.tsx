@@ -1,5 +1,5 @@
 import { ChevronsUpDown, GalleryVerticalEnd } from "lucide-react"
-import { SidebarMenuButton } from "./sidebar"
+import { SidebarMenuButton } from "../ui/sidebar"
 
 const Company = {
   name: "Entreprise Test",

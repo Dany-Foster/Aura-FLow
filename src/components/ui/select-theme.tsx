@@ -1,3 +1,4 @@
+import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import { useTheme } from "../theme-provider"
 import {
   Select,
@@ -11,6 +12,7 @@ import {
 
 export default function SelectTheme() {
   const { themeMode, setTheme } = useTheme()
+  const All = useThemeManagementStore((state) => state.AllTheme)
 
   const onValueChange = (value: "default" | "claude") => {
     setTheme(value, themeMode.mode)
@@ -19,11 +21,6 @@ export default function SelectTheme() {
     { label: "Select votre couleur", value: null },
     { label: "Default", value: "default" },
     { label: "Claude", value: "Claude" },
-  ]
-
-  const ColorListe = [
-    { label: "Default", value: "default", color: "#6366f1" },
-    { label: "Claude", value: "claude", color: "#c96442" },
   ]
 
   return (
@@ -38,14 +35,16 @@ export default function SelectTheme() {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Couleur de fond</SelectLabel>
-          {ColorListe.map((color) => (
-            <SelectItem value={color.value}>
-              <div key={color.value} className="flex flex-1 items-center gap-2">
+          {All.map((color) => (
+            <SelectItem value={color.theme}>
+              <div key={color.theme} className="flex flex-1 items-center gap-2">
                 <span
                   className="inline-block h-2 w-2 rounded-full"
-                  style={{ backgroundColor: color.color }}
+                  style={{
+                    backgroundColor: `${themeMode.mode === "light" ? color.color[0] : color.color[1]}`,
+                  }}
                 />
-                <span>{color.label}</span>
+                <span>{color.theme}</span>
               </div>
             </SelectItem>
           ))}

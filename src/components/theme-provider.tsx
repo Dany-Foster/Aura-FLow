@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import { ThemeFont } from "@/lib/color-theme"
 import * as React from "react"
 
@@ -90,6 +90,7 @@ export function ThemeProvider({
   disableTransitionOnChange = true,
   ...props
 }: ThemeProviderProps) {
+  const UpdateTheme = useThemeManagementStore((state) => state.UpdateTheme)
   const [themeMode, setThemeModeState] = React.useState<ThemeMode>(() => {
     const storedTheme: ThemeMode | null = JSON.parse(
       localStorage.getItem(storageKey) as string
@@ -129,11 +130,11 @@ export function ThemeProvider({
         ? disableTransitionsTemporarily()
         : null
 
+      UpdateTheme(nextTheme, resolvedTheme)
       if (ThemeFont[nextTheme] === undefined) {
         nextTheme = "default"
       }
       const theme = ThemeFont[nextTheme][resolvedTheme]
-
       Object.entries(theme).forEach(([property, value]) => {
         root.style.setProperty(property, value)
       })
@@ -142,7 +143,7 @@ export function ThemeProvider({
         restoreTransitions()
       }
     },
-    [disableTransitionOnChange]
+    [disableTransitionOnChange, UpdateTheme]
   )
 
   React.useEffect(() => {
@@ -248,7 +249,7 @@ export function ThemeProvider({
     return () => {
       window.removeEventListener("storage", handleStorageChange)
     }
-  }, [defaultTheme, storageKey])
+  }, [defaultTheme, defaultMode, storageKey])
 
   const value = React.useMemo(
     () => ({
