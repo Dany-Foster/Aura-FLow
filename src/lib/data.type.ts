@@ -18,7 +18,7 @@ import {
   Van,
   Warehouse,
 } from "lucide-react"
-import type { ListColorType } from "./Type-data.type"
+import type { ItemColorSelected, ListColorType } from "./Type-data.type"
 
 export const datadropMenuEntreprise = [
   {
@@ -240,5 +240,40 @@ export const ListColor: ListColorType[] = [
       { name: "Fond de l'élément", index: "--destructive" },
       { name: "Fond de texte", index: "--destructive-foreground" },
     ],
+  },
+]
+
+export const ListItemColors: ItemColorSelected[] = [
+  {
+    name: "primary",
+    index: ["--primary", "--primary-foreground"],
+  },
+  {
+    name: "secondary",
+    index: ["--secondary", "--secondary-foreground"],
+  },
+  {
+    name: "background",
+    index: ["--background", "--foreground"],
+  },
+  {
+    name: "card",
+    index: ["--card", "--card-foreground"],
+  },
+  {
+    name: "popver",
+    index: ["--popover", "--popover-foreground"],
+  },
+  {
+    name: "muted-element",
+    index: ["--muted", "--muted-foreground"],
+  },
+  {
+    name: "accent",
+    index: ["--accent", "--accent-foreground"],
+  },
+  {
+    name: "destructive-element",
+    index: ["--destructive", "--destructive-foreground"],
   },
 ]

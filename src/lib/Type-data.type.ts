@@ -68,19 +68,18 @@ type ThemeAndColor = {
   color: string[]
 }
 
-type ColorTypeUnique = { index: keyof ThemeColors; color: string }
-
-type SelectedColorType = {
+type ItemColorSelected = {
   name: string
-  colors: ColorTypeUnique[]
+  index: (keyof ThemeColors)[]
 }
 
 type ThemeState = {
   AllTheme: ThemeAndColor[]
-  SelectedColorsCustom: SelectedColorType | null
   ThemeColors: ThemeColors | null
+  ItemColorSelected: ItemColorSelected | null
   UpdateTheme: (theme: Theme, mode: Mode) => void
-  SetSelectedColorCustom: (name: string, color: ColorTypeUnique[]) => void
+  setTheme: (index: keyof ThemeColors, color: string) => void
+  setColorSelected: (name: string, index: (keyof ThemeColors)[]) => void
 }
 
 type colorsType = {
@@ -96,10 +95,9 @@ type ListColorType = {
 
 export type {
   colorsType,
-  ColorTypeUnique,
+  ItemColorSelected,
   ListColorType,
   Mode,
-  SelectedColorType,
   Theme,
   ThemeAndColor,
   ThemeColors,

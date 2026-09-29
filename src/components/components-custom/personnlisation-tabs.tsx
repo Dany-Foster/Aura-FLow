@@ -1,10 +1,22 @@
-import { ListColor, tabs } from "@/lib/data.type"
+import { useThemeManagementStore } from "@/hooks/ThemeManagement"
+import { ListColor, ListItemColors, tabs } from "@/lib/data.type"
 import { Accordion } from "../ui/accordion"
 import { Card, CardContent } from "../ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import ColorCustom from "./color-custom"
 
 export default function PersonnalisationTabs() {
+  const setItemColorSelected = useThemeManagementStore(
+    (state) => state.setColorSelected
+  )
+  const OnValueChange = (value: string[]) => {
+    ListItemColors.map((data) => {
+      if (value[0]?.includes(data.name)) {
+        setItemColorSelected(data.name, data.index)
+      }
+    })
+  }
+
   return (
     <Tabs defaultValue="" className="lg:w-150">
       <TabsList>
@@ -21,7 +33,7 @@ export default function PersonnalisationTabs() {
       <TabsContent value="Couleur" className="">
         <Card className="">
           <CardContent>
-            <Accordion className="">
+            <Accordion onValueChange={OnValueChange}>
               {ListColor.map((data, index) => (
                 <ColorCustom
                   key={index}

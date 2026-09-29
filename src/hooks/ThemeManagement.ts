@@ -1,8 +1,8 @@
 import { ThemeFont } from "@/lib/color-theme"
 import type {
-  ColorTypeUnique,
   Mode,
   Theme,
+  ThemeColors,
   ThemeMode,
   ThemeState,
 } from "@/lib/Type-data.type"
@@ -33,10 +33,15 @@ function AllTheme() {
 export const useThemeManagementStore = create<ThemeState>((set) => ({
   AllTheme: AllTheme(),
   ThemeColors: LoadThemeActuel() ?? null,
-  SelectedColorsCustom: null,
+  ItemColorSelected: null,
   UpdateTheme: (theme: Theme, mode: Mode) =>
     set(() => ({ ThemeColors: LoadThemeActuel(theme, mode) })),
-  SetSelectedColorCustom(name: string, colors: ColorTypeUnique[]) {
-    set(() => ({ SelectedColorsCustom: { name, colors } }))
-  },
+  setTheme: (index: keyof ThemeColors, color: string) =>
+    set((state) => ({
+      ThemeColors: state.ThemeColors
+        ? { ...state.ThemeColors, [index]: color }
+        : null,
+    })),
+  setColorSelected: (name: string, index: (keyof ThemeColors)[]) =>
+    set(() => ({ ItemColorSelected: { name, index } })),
 }))

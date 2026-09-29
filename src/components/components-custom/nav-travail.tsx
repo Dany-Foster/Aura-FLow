@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -18,6 +18,7 @@ export default function NavTravail({
     icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
   }[]
 }) {
+  const [selectItem, setSelectedItem] = useState("")
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="text-bold text-xs text-muted-foreground">
@@ -25,9 +26,14 @@ export default function NavTravail({
       </SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-4">
         <SidebarMenu className="flex flex-col gap-2">
-          {items.map((item) => (
+          {items.map((item, index) => (
             <SidebarMenuItem key={item.titre}>
-              <SidebarMenuButton tooltip={item.titre}>
+              <SidebarMenuButton
+                key={index}
+                data-active={selectItem === item.titre}
+                onClick={() => setSelectedItem(item.titre)}
+                tooltip={item.titre}
+              >
                 {item.icon && <item.icon />}
                 <span>{item.titre}</span>
               </SidebarMenuButton>

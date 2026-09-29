@@ -1,5 +1,6 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
-import type { colorsType } from "@/lib/Type-data.type"
+import type { colorsType, ThemeColors } from "@/lib/Type-data.type"
+import { useState } from "react"
 import {
   AccordionContent,
   AccordionItem,
@@ -17,7 +18,16 @@ export default function ColorCustom({
   colors: colorsType[]
 }) {
   const colorActuel = useThemeManagementStore((state) => state.ThemeColors)
-
+  const setColorInTheme = useThemeManagementStore((state) => state.setTheme)
+  const [stateColor, setStateColor] = useState<string | null>(null)
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: keyof ThemeColors
+  ) => {
+    const { value } = e.target
+    setStateColor(value)
+    setColorInTheme(index, value)
+  }
   return (
     <AccordionItem value={Trigger} className="border-none">
       <div>
@@ -37,11 +47,11 @@ export default function ColorCustom({
               }}
               className="relative flex size-7 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-md border shadow-sm"
             >
-              <input
+              <Input
                 type="color"
                 name=""
-                readOnly
-                value={colorActuel ? colorActuel[color.index] : ""}
+                value={stateColor ? stateColor : ""}
+                onChange={(e) => handleChange(e, color.index)}
                 className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
               />
             </div>
@@ -52,8 +62,9 @@ export default function ColorCustom({
               <Input
                 type="text"
                 className="w-full"
+                disabled
                 value={colorActuel ? colorActuel[color.index] : ""}
-                // onChange={}
+                onChange={(e) => handleChange(e, color.index)}
               />
             </div>
           </div>
