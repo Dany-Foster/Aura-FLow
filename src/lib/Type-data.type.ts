@@ -61,7 +61,7 @@ type ThemeColors = {
 }
 
 type Theme = "default" | "claude"
-type Mode = "dark" | "light"
+type Mode = "dark" | "light" | "system"
 type ThemeMode = { theme: Theme; mode: Mode }
 type ThemeAndColor = {
   theme: string
@@ -76,8 +76,11 @@ type ItemColorSelected = {
 type ThemeState = {
   AllTheme: ThemeAndColor[]
   ThemeColors: ThemeColors | null
+  ThemeColorCustom: ThemeColors | null
   ItemColorSelected: ItemColorSelected | null
-  UpdateTheme: (theme: Theme, mode: Mode) => void
+  Reset: () => void
+  UpdateThemeCustom: () => void
+  UpdateTheme: (theme: Theme, mode: "dark" | "light") => void
   setTheme: (index: keyof ThemeColors, color: string) => void
   setColorSelected: (name: string, index: (keyof ThemeColors)[]) => void
 }

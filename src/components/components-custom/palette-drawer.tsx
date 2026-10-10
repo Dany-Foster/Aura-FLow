@@ -61,6 +61,7 @@ export default function PalletteDrawer() {
               <Button
                 onClick={() => handleChangeTheme(themeMode.theme, "light")}
                 variant="outline"
+                data-active={themeMode.mode === "light"}
                 className="flex-1"
               >
                 Light
@@ -68,6 +69,7 @@ export default function PalletteDrawer() {
               <Button
                 onClick={() => handleChangeTheme(themeMode.theme, "dark")}
                 variant="outline"
+                data-active={themeMode.mode === "dark"}
                 className="flex-1"
               >
                 Dark
@@ -75,6 +77,7 @@ export default function PalletteDrawer() {
               <Button
                 onClick={() => handleChangeTheme(themeMode.theme, "system")}
                 variant="outline"
+                data-active={themeMode.mode === "system"}
                 className="flex-1"
               >
                 Système
@@ -89,7 +92,12 @@ export default function PalletteDrawer() {
               <span className="">ALEATOIRE</span>
             </Button>
             <DrawerClose
-              render={<Button variant="outline" className="flex-1" />}
+              render={
+                <Button
+                  variant="secondary"
+                  className="border-forgroound flex-1 border-1"
+                />
+              }
             >
               Réinitialiser par défaut
             </DrawerClose>

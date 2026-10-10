@@ -1,6 +1,6 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import type { colorsType, ThemeColors } from "@/lib/Type-data.type"
-import { useState } from "react"
+import { useEffect, useRef } from "react"
 import {
   AccordionContent,
   AccordionItem,
@@ -17,17 +17,29 @@ export default function ColorCustom({
   Titre: string
   colors: colorsType[]
 }) {
-  const colorActuel = useThemeManagementStore((state) => state.ThemeColors)
+  const colorActuel = useThemeManagementStore((state) => state.ThemeColorCustom)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const setColorInTheme = useThemeManagementStore((state) => state.setTheme)
-  const [stateColor, setStateColor] = useState<string | null>(null)
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: keyof ThemeColors
   ) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
     const { value } = e.target
-    setStateColor(value)
-    setColorInTheme(index, value)
+
+    if (!value) {
+      return
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      // La couleur est appliquée uniquement
+      // après que le sélecteur est resté immobile
+      setColorInTheme(index, value)
+    }, 300)
   }
+
   return (
     <AccordionItem value={Trigger} className="border-none">
       <div>
@@ -50,7 +62,7 @@ export default function ColorCustom({
               <Input
                 type="color"
                 name=""
-                value={stateColor ? stateColor : ""}
+                value={colorActuel ? colorActuel[color.index] : ""}
                 onChange={(e) => handleChange(e, color.index)}
                 className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
               />

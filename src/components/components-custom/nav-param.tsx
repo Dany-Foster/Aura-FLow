@@ -9,6 +9,8 @@ import {
 
 export default function NavParam({
   items,
+  selectItem,
+  setSelectedItem,
 }: {
   items: {
     id: number
@@ -16,6 +18,8 @@ export default function NavParam({
     url: string
     icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
   }[]
+  selectItem: string
+  setSelectedItem: (item: string) => void
 }) {
   return (
     <SidebarGroup>
@@ -23,7 +27,11 @@ export default function NavParam({
         <SidebarMenu className="flex flex-col gap-2">
           {items.map((item) => (
             <SidebarMenuItem key={item.titre}>
-              <SidebarMenuButton tooltip={item.titre}>
+              <SidebarMenuButton
+                data-active={selectItem === item.titre}
+                onClick={() => setSelectedItem(item.titre)}
+                tooltip={item.titre}
+              >
                 {item.icon && <item.icon />}
                 <span>{item.titre}</span>
               </SidebarMenuButton>

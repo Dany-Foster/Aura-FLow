@@ -1,3 +1,4 @@
+import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import { Palette } from "lucide-react"
 import { Button } from "../ui/button"
 import {
@@ -13,8 +14,19 @@ import PersonnalisationTabs from "./personnlisation-tabs"
 import PreviewTheme from "./preview-theme"
 
 export default function CustomisationPallette() {
+  const reset = useThemeManagementStore((state) => state.Reset)
+  const loadTheme = useThemeManagementStore((state) => state.UpdateThemeCustom)
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      reset()
+      return
+    }
+
+    loadTheme()
+  }
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={(open) => handleOpenChange(open)}>
       <form>
         <DialogTrigger render={<Button variant="outline" size="icon" />}>
           <Palette className="size-4" />

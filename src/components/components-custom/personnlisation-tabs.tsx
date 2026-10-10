@@ -10,9 +10,15 @@ export default function PersonnalisationTabs() {
     (state) => state.setColorSelected
   )
   const OnValueChange = (value: string[]) => {
+    if (value[0] === undefined) {
+      setItemColorSelected("", [])
+      return
+    }
+
     ListItemColors.map((data) => {
       if (value[0]?.includes(data.name)) {
         setItemColorSelected(data.name, data.index)
+        return
       }
     })
   }

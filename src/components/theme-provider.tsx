@@ -129,11 +129,11 @@ export function ThemeProvider({
       const restoreTransitions = disableTransitionOnChange
         ? disableTransitionsTemporarily()
         : null
-
-      UpdateTheme(nextTheme, resolvedTheme)
       if (ThemeFont[nextTheme] === undefined) {
         nextTheme = "default"
       }
+
+      UpdateTheme(nextTheme, resolvedTheme)
       const theme = ThemeFont[nextTheme][resolvedTheme]
       Object.entries(theme).forEach(([property, value]) => {
         root.style.setProperty(property, value)
@@ -148,22 +148,8 @@ export function ThemeProvider({
 
   React.useEffect(() => {
     const { theme, mode } = themeMode
+
     applyTheme(theme, mode)
-
-    if (mode !== "system") {
-      return undefined
-    }
-
-    const mediaQuery = window.matchMedia(COLOR_SCHEME_QUERY)
-    const handleChange = () => {
-      applyTheme("default", "system")
-    }
-
-    mediaQuery.addEventListener("change", handleChange)
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange)
-    }
   }, [themeMode, applyTheme])
 
   React.useEffect(() => {
@@ -231,8 +217,12 @@ export function ThemeProvider({
           "mode" in storedTheme &&
           isMode(storedTheme.mode as Mode)
         ) {
+          applyTheme(storedTheme.theme as Theme, storedTheme.mode as Mode)
           setThemeModeState(storedTheme as ThemeMode)
+          localStorage.setItem(storageKey, JSON.stringify(storedTheme))
           return
+        } else {
+          console.log("storedTheme is not a valid ThemeMode object")
         }
       } catch {
         console.log("parsing error")
@@ -249,7 +239,7 @@ export function ThemeProvider({
     return () => {
       window.removeEventListener("storage", handleStorageChange)
     }
-  }, [defaultTheme, defaultMode, storageKey])
+  }, [defaultTheme, defaultMode, storageKey, applyTheme])
 
   const value = React.useMemo(
     () => ({

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -10,6 +10,8 @@ import {
 
 export default function NavTravail({
   items,
+  selectItem,
+  setSelectedItem,
 }: {
   items: {
     id: number
@@ -17,8 +19,9 @@ export default function NavTravail({
     url: string
     icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
   }[]
+  selectItem: string
+  setSelectedItem: (item: string) => void
 }) {
-  const [selectItem, setSelectedItem] = useState("")
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="text-bold text-xs text-muted-foreground">
