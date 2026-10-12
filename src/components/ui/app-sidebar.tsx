@@ -1,10 +1,10 @@
 import { datadropMenu } from "@/lib/data.type"
 import { useState } from "react"
-import EntrepriseMenu from "../components-custom/entreprise-menu"
-import NavGestionCommercial from "../components-custom/nav-gestioncommercial"
-import NavParam from "../components-custom/nav-param"
-import NavRelation from "../components-custom/nav-relation"
-import NavTravail from "../components-custom/nav-travail"
+import EntrepriseMenu from "../Custom/entreprise-menu"
+import NavGestionCommercial from "../Custom/nav-gestioncommercial"
+import NavParam from "../Custom/nav-param"
+import NavRelation from "../Custom/nav-relation"
+import NavTravail from "../Custom/nav-travail"
 import {
   Sidebar,
   SidebarContent,

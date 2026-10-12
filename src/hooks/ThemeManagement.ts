@@ -45,6 +45,7 @@ function AllTheme() {
 }
 
 export const useThemeManagementStore = create<ThemeState>((set) => ({
+  SystemTheme: getSystemTheme,
   AllTheme: AllTheme(),
   ThemeColors: null,
   ThemeColorCustom: null,

@@ -67,13 +67,25 @@ type ThemeAndColor = {
   theme: string
   color: string[]
 }
+type ThemeProviderProps = {
+  children: React.ReactNode
+  defaultTheme?: Theme
+  defaultMode?: Mode
+  storageKey?: string
+  disableTransitionOnChange?: boolean
+}
 
 type ItemColorSelected = {
   name: string
   index: (keyof ThemeColors)[]
 }
+type ThemeProviderState = {
+  themeMode: ThemeMode
+  setTheme: (nextTheme: Theme, nextMode: Mode) => void
+}
 
 type ThemeState = {
+  SystemTheme: () => "dark" | "light"
   AllTheme: ThemeAndColor[]
   ThemeColors: ThemeColors | null
   ThemeColorCustom: ThemeColors | null
@@ -105,5 +117,7 @@ export type {
   ThemeAndColor,
   ThemeColors,
   ThemeMode,
+  ThemeProviderProps,
+  ThemeProviderState,
   ThemeState,
 }

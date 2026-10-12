@@ -60,24 +60,21 @@ export default function PalletteDrawer() {
             <div className="flex justify-between gap-2">
               <Button
                 onClick={() => handleChangeTheme(themeMode.theme, "light")}
-                variant="outline"
-                data-active={themeMode.mode === "light"}
+                variant={themeMode.mode === "light" ? "default" : "outline"}
                 className="flex-1"
               >
                 Light
               </Button>
               <Button
                 onClick={() => handleChangeTheme(themeMode.theme, "dark")}
-                variant="outline"
-                data-active={themeMode.mode === "dark"}
+                variant={themeMode.mode === "dark" ? "default" : "outline"}
                 className="flex-1"
               >
                 Dark
               </Button>
               <Button
                 onClick={() => handleChangeTheme(themeMode.theme, "system")}
-                variant="outline"
-                data-active={themeMode.mode === "system"}
+                variant={themeMode.mode === "system" ? "default" : "outline"}
                 className="flex-1"
               >
                 Système

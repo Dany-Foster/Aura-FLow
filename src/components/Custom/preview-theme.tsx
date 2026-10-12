@@ -3,7 +3,10 @@ import type { ItemColorSelected } from "@/lib/Type-data.type"
 import { Palette, Plus } from "lucide-react"
 import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
-import CustomColorPrimary from "./custom-color-primary"
+import CustomColorPrimary, {
+  CustomColorBase,
+  CustomColorSecondary,
+} from "./custom-color"
 import EmptyCustom from "./Presence/Empty"
 
 export default function PreviewTheme() {
@@ -15,6 +18,10 @@ export default function PreviewTheme() {
     switch (ItemColorSelected?.name) {
       case "primary":
         return <CustomColorPrimary />
+      case "secondary":
+        return <CustomColorSecondary />
+      case "background":
+        return <CustomColorBase />
       default:
         return (
           <EmptyCustom
@@ -28,7 +35,7 @@ export default function PreviewTheme() {
   }
 
   return (
-    <div className="flex h-full w-1/2 flex-col items-end gap-2">
+    <div className="flex h-111.5 w-1/2 flex-col items-end gap-2">
       <div className="flex items-center gap-4">
         <Button variant="outline" className="w-auto">
           <Plus /> Nouveau thème

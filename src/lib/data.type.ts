@@ -18,7 +18,7 @@ import {
   Van,
   Warehouse,
 } from "lucide-react"
-import type { ItemColorSelected, ListColorType } from "./Type-data.type"
+import type { ItemColorSelected, ListColorType, Mode } from "./Type-data.type"
 
 export const datadropMenuEntreprise = [
   {
@@ -277,3 +277,32 @@ export const ListItemColors: ItemColorSelected[] = [
     index: ["--destructive", "--destructive-foreground"],
   },
 ]
+
+export const MODE_THEME_VALUES: Mode[] = ["dark", "light", "system"]
+
+export function isMode(value: string | null): value is Mode {
+  if (value === null) {
+    return false
+  }
+
+  return MODE_THEME_VALUES.includes(value as Mode)
+}
+
+export function disableTransitionsTemporarily() {
+  const style = document.createElement("style")
+  style.appendChild(
+    document.createTextNode(
+      "*,*::before,*::after{-webkit-transition:none!important;transition:none!important}"
+    )
+  )
+  document.head.appendChild(style)
+
+  return () => {
+    window.getComputedStyle(document.body)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        style.remove()
+      })
+    })
+  }
+}

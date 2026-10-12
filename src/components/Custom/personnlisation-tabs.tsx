@@ -1,7 +1,7 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import { ListColor, ListItemColors, tabs } from "@/lib/data.type"
 import { Accordion } from "../ui/accordion"
-import { Card, CardContent } from "../ui/card"
+import { ScrollArea } from "../ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import ColorCustom from "./color-custom"
 
@@ -37,8 +37,8 @@ export default function PersonnalisationTabs() {
         ))}
       </TabsList>
       <TabsContent value="Couleur" className="">
-        <Card className="">
-          <CardContent>
+        <ScrollArea className="h-101.5 w-full rounded-md border border-foreground/10">
+          <div className="p-4">
             <Accordion onValueChange={OnValueChange}>
               {ListColor.map((data, index) => (
                 <ColorCustom
@@ -49,8 +49,8 @@ export default function PersonnalisationTabs() {
                 />
               ))}
             </Accordion>
-          </CardContent>
-        </Card>
+          </div>
+        </ScrollArea>
       </TabsContent>
     </Tabs>
   )

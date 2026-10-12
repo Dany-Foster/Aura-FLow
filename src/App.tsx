@@ -1,5 +1,5 @@
 import { BellRing, Plus, Search } from "lucide-react"
-import PalletteDrawer from "./components/components-custom/palette-drawer"
+import PalletteDrawer from "./components/Custom/palette-drawer"
 import AppSidebar from "./components/ui/app-sidebar"
 import { Button } from "./components/ui/button"
 import {
@@ -46,7 +46,6 @@ export function App() {
               <PalletteDrawer />
             </div>
             <SidebarSeparator orientation="vertical" />
-
             <PopoverProfil />
           </div>
         </header>

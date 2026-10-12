@@ -1,67 +1,20 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import { ThemeFont } from "@/lib/color-theme"
+import { disableTransitionsTemporarily, isMode } from "@/lib/data.type"
+import type {
+  Mode,
+  Theme,
+  ThemeMode,
+  ThemeProviderProps,
+  ThemeProviderState,
+} from "@/lib/Type-data.type"
 import * as React from "react"
-
-type Theme = "default" | "claude"
-type Mode = "dark" | "light" | "system"
-type ResolvedTheme = "dark" | "light"
-type ThemeMode = { theme: Theme; mode: Mode }
-
-type ThemeProviderProps = {
-  children: React.ReactNode
-  defaultTheme?: Theme
-  defaultMode?: Mode
-  storageKey?: string
-  disableTransitionOnChange?: boolean
-}
-
-type ThemeProviderState = {
-  themeMode: ThemeMode
-  setTheme: (nextTheme: Theme, nextMode: Mode) => void
-}
-
-const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)"
-const MODE_THEME_VALUES: Mode[] = ["dark", "light", "system"]
 
 const ThemeProviderContext = React.createContext<
   ThemeProviderState | undefined
 >(undefined)
 
-function isMode(value: string | null): value is Mode {
-  if (value === null) {
-    return false
-  }
-
-  return MODE_THEME_VALUES.includes(value as Mode)
-}
-
 /* Vérifie si le système est en mode dark ou light */
-function getSystemTheme(): ResolvedTheme {
-  if (window.matchMedia(COLOR_SCHEME_QUERY).matches) {
-    return "dark"
-  }
-
-  return "light"
-}
-
-function disableTransitionsTemporarily() {
-  const style = document.createElement("style")
-  style.appendChild(
-    document.createTextNode(
-      "*,*::before,*::after{-webkit-transition:none!important;transition:none!important}"
-    )
-  )
-  document.head.appendChild(style)
-
-  return () => {
-    window.getComputedStyle(document.body)
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        style.remove()
-      })
-    })
-  }
-}
 
 function isEditableTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) {
@@ -91,6 +44,7 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const UpdateTheme = useThemeManagementStore((state) => state.UpdateTheme)
+  const ThemeSystem = useThemeManagementStore((state) => state.SystemTheme)
   const [themeMode, setThemeModeState] = React.useState<ThemeMode>(() => {
     const storedTheme: ThemeMode | null = JSON.parse(
       localStorage.getItem(storageKey) as string
@@ -125,7 +79,7 @@ export function ThemeProvider({
   const applyTheme = React.useCallback(
     (nextTheme: Theme, nextMode: Mode) => {
       const root = document.documentElement
-      const resolvedTheme = nextMode === "system" ? getSystemTheme() : nextMode
+      const resolvedTheme = nextMode === "system" ? ThemeSystem() : nextMode
       const restoreTransitions = disableTransitionOnChange
         ? disableTransitionsTemporarily()
         : null
@@ -143,7 +97,7 @@ export function ThemeProvider({
         restoreTransitions()
       }
     },
-    [disableTransitionOnChange, UpdateTheme]
+    [disableTransitionOnChange, UpdateTheme, ThemeSystem]
   )
 
   React.useEffect(() => {
@@ -176,7 +130,7 @@ export function ThemeProvider({
             ? "light"
             : currentTheme.mode === "light"
               ? "dark"
-              : getSystemTheme() === "dark"
+              : ThemeSystem() === "dark"
                 ? "light"
                 : "dark"
 
@@ -195,7 +149,7 @@ export function ThemeProvider({
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
     }
-  }, [storageKey])
+  }, [storageKey, ThemeSystem])
 
   React.useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
