@@ -1,6 +1,6 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import type { colorsType, ThemeColors } from "@/lib/Type-data.type"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import {
   AccordionContent,
   AccordionItem,

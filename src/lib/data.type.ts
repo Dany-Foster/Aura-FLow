@@ -203,14 +203,14 @@ export const ListColor: ListColorType[] = [
   },
   {
     trigger: "card",
-    title: "Fenêtres",
+    title: "Cartes",
     color: [
-      { name: "fond de card", index: "--card" },
+      { name: "fond de carte", index: "--card" },
       { name: "Fond de texte", index: "--card-foreground" },
     ],
   },
   {
-    trigger: "popver",
+    trigger: "popover",
     title: "Elements flottantes",
     color: [
       { name: "Fond de l'élément", index: "--popover" },
@@ -218,7 +218,7 @@ export const ListColor: ListColorType[] = [
     ],
   },
   {
-    trigger: "muted-element",
+    trigger: "muted",
     title: "Elements atténués",
     color: [
       { name: "Fond de l'élément", index: "--muted" },
@@ -261,11 +261,11 @@ export const ListItemColors: ItemColorSelected[] = [
     index: ["--card", "--card-foreground"],
   },
   {
-    name: "popver",
+    name: "popover",
     index: ["--popover", "--popover-foreground"],
   },
   {
-    name: "muted-element",
+    name: "muted",
     index: ["--muted", "--muted-foreground"],
   },
   {

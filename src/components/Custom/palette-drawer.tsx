@@ -92,7 +92,7 @@ export default function PalletteDrawer() {
               render={
                 <Button
                   variant="secondary"
-                  className="border-forgroound flex-1 border-1"
+                  className="border-forgroound flex-1 border"
                 />
               }
             >

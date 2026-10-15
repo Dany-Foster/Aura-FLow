@@ -3,7 +3,7 @@ import { ListColor, ListItemColors, tabs } from "@/lib/data.type"
 import { Accordion } from "../ui/accordion"
 import { ScrollArea } from "../ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
-import ColorCustom from "./color-custom"
+import ColorCustom from "./color-custom-accordion"
 
 export default function PersonnalisationTabs() {
   const setItemColorSelected = useThemeManagementStore(

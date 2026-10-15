@@ -1,10 +1,27 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import type { ItemColorSelected } from "@/lib/Type-data.type"
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd, Ghost } from "lucide-react"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "../ui/popover"
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs"
+import EmptyCustom from "./Presence/Empty"
 
 export default function CustomColorPrimary() {
   const ItemColorSelected: ItemColorSelected | null = useThemeManagementStore(
@@ -15,11 +32,11 @@ export default function CustomColorPrimary() {
   const style = {
     "--tab-trigger-variable-bg":
       ThemeColor && ItemColorSelected
-        ? ThemeColor[ItemColorSelected?.index[0]]
+        ? ThemeColor[ItemColorSelected.index[0]]
         : "#000",
     "--tab-trigger-variable-fg":
       ThemeColor && ItemColorSelected
-        ? ThemeColor[ItemColorSelected?.index[1]]
+        ? ThemeColor[ItemColorSelected.index[1]]
         : "#fff",
   } as React.CSSProperties
 
@@ -29,11 +46,11 @@ export default function CustomColorPrimary() {
         style={{
           backgroundColor:
             ThemeColor && ItemColorSelected
-              ? ThemeColor[ItemColorSelected?.index[0]]
+              ? ThemeColor[ItemColorSelected.index[0]]
               : "",
           color:
             ThemeColor && ItemColorSelected
-              ? ThemeColor[ItemColorSelected?.index[1]]
+              ? ThemeColor[ItemColorSelected.index[1]]
               : "",
         }}
       >
@@ -68,11 +85,11 @@ export default function CustomColorPrimary() {
         style={{
           backgroundColor:
             ThemeColor && ItemColorSelected
-              ? ThemeColor[ItemColorSelected?.index[0]]
+              ? ThemeColor[ItemColorSelected.index[0]]
               : "",
           color:
             ThemeColor && ItemColorSelected
-              ? ThemeColor[ItemColorSelected?.index[1]]
+              ? ThemeColor[ItemColorSelected.index[1]]
               : "",
         }}
         className="flex aspect-square size-8 items-center justify-center rounded-lg"
@@ -92,11 +109,11 @@ export function CustomColorSecondary() {
   const style = {
     "--badge-variable-bg":
       ThemeColor && ItemColorSelected
-        ? ThemeColor[ItemColorSelected?.index[0]]
+        ? ThemeColor[ItemColorSelected.index[0]]
         : "#000",
     "--badge-variable-fg":
       ThemeColor && ItemColorSelected
-        ? ThemeColor[ItemColorSelected?.index[1]]
+        ? ThemeColor[ItemColorSelected.index[1]]
         : "#fff",
   } as React.CSSProperties
 
@@ -106,11 +123,11 @@ export function CustomColorSecondary() {
         style={{
           backgroundColor:
             ThemeColor && ItemColorSelected
-              ? ThemeColor[ItemColorSelected?.index[0]]
+              ? ThemeColor[ItemColorSelected.index[0]]
               : "",
           color:
             ThemeColor && ItemColorSelected
-              ? ThemeColor[ItemColorSelected?.index[1]]
+              ? ThemeColor[ItemColorSelected.index[1]]
               : "",
         }}
       >
@@ -134,7 +151,7 @@ export function CustomColorBase() {
   const style = {
     "--background-variable-bg":
       ThemeColor && ItemColorSelected
-        ? ThemeColor[ItemColorSelected?.index[0]]
+        ? ThemeColor[ItemColorSelected.index[0]]
         : "#000",
   } as React.CSSProperties
 
@@ -158,13 +175,31 @@ export function CustomColorBase() {
           style={style}
         >
           <header className="flex h-10 items-center border-b px-3">
-            <span className="truncate text-xs font-medium">
+            <span
+              className="truncate text-xs font-medium"
+              style={{
+                color:
+                  ThemeColor && ItemColorSelected
+                    ? ThemeColor[ItemColorSelected.index[1]]
+                    : "#fff",
+              }}
+            >
               Tableau de bord
             </span>
           </header>
 
           <main className="min-w-0 space-y-3 overflow-hidden p-3">
-            <h3 className="truncate text-sm font-semibold">Vue générale</h3>
+            <h3
+              className="truncate text-sm font-semibold"
+              style={{
+                color:
+                  ThemeColor && ItemColorSelected
+                    ? ThemeColor[ItemColorSelected.index[1]]
+                    : "#fff",
+              }}
+            >
+              Vue générale
+            </h3>
 
             <div className="grid grid-cols-1 gap-2">
               <Card className="min-w-0 gap-2 py-3">
@@ -188,6 +223,135 @@ export function CustomColorBase() {
           </main>
         </div>
       </div>
+    </div>
+  )
+}
+
+export function CustomColorCard() {
+  const ItemColorSelected: ItemColorSelected | null = useThemeManagementStore(
+    (state) => state.ItemColorSelected
+  )
+  const ThemeColor = useThemeManagementStore((state) => state.ThemeColorCustom)
+
+  const style = {
+    "--card-variable-bg":
+      ThemeColor && ItemColorSelected
+        ? ThemeColor[ItemColorSelected.index[0]]
+        : "#000",
+    "--card-variable-fg":
+      ThemeColor && ItemColorSelected
+        ? ThemeColor[ItemColorSelected.index[1]]
+        : "#ffff",
+  } as React.CSSProperties
+
+  return (
+    <Card
+      className="relative mx-auto w-full max-w-sm bg-(--card-variable-bg) pt-0 text-(--card-variable-fg)"
+      style={style}
+    >
+      <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+      <img
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Event cover"
+        className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
+      />
+      <CardHeader>
+        <CardAction>
+          <Badge
+            variant="secondary"
+            style={{
+              backgroundColor: ThemeColor ? ThemeColor["--secondary"] : "#000",
+              color: ThemeColor ? ThemeColor["--secondary-foreground"] : "#fff",
+            }}
+          >
+            Featured
+          </Badge>
+        </CardAction>
+        <CardTitle>Design systems meetup</CardTitle>
+        <CardDescription>
+          A practical talk on component APIs, accessibility, and shipping
+          faster.
+        </CardDescription>
+      </CardHeader>
+      <CardFooter>
+        <Button
+          className="w-full"
+          style={{
+            backgroundColor: ThemeColor ? ThemeColor["--primary"] : "#000",
+            color: ThemeColor ? ThemeColor["--primary-foreground"] : "#fff",
+          }}
+        >
+          View Event
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
+
+export function CustomColorPopover() {
+  const ItemColorSelected: ItemColorSelected | null = useThemeManagementStore(
+    (state) => state.ItemColorSelected
+  )
+  const ThemeColor = useThemeManagementStore((state) => state.ThemeColorCustom)
+
+  return (
+    <>
+      {ThemeColor && ItemColorSelected ? (
+        <div className="flex min-h-full flex-col items-center justify-center gap-4">
+          <Popover open={true}>
+            <PopoverTrigger
+              render={
+                <Button
+                  variant="default"
+                  className="w-fit"
+                  style={{
+                    backgroundColor: ThemeColor["--primary"],
+                    color: ThemeColor["--primary-foreground"],
+                  }}
+                >
+                  Button d'activation
+                </Button>
+              }
+            />
+            <PopoverContent
+              align="center"
+              className="w-80 p-4"
+              style={{
+                backgroundColor: ThemeColor[ItemColorSelected.index[0]],
+                color: ThemeColor[ItemColorSelected.index[1]],
+              }}
+            >
+              <PopoverHeader>
+                <PopoverTitle>Elément flottante</PopoverTitle>
+                <PopoverDescription>
+                  Cet élément flottant est personnalisé.
+                </PopoverDescription>
+              </PopoverHeader>
+            </PopoverContent>
+          </Popover>
+        </div>
+      ) : (
+        <EmptyCustom
+          text="Une problème s'est produit lors du chargement de la couleur"
+          icon={Ghost}
+        />
+      )}
+    </>
+  )
+}
+
+export function CustomColorMuted() {
+  const ThemeColor = useThemeManagementStore((state) => state.ThemeColorCustom)
+  return (
+    <div className="flex min-h-full flex-col items-center justify-center gap-4">
+      <Button
+        style={{
+          backgroundColor: ThemeColor ? ThemeColor["--muted"] : "#000",
+          color: ThemeColor ? ThemeColor["--muted-foreground"] : "#fff",
+        }}
+      >
+        Button
+      </Button>
     </div>
   )
 }

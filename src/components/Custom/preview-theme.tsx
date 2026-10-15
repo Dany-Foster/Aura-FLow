@@ -5,6 +5,9 @@ import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
 import CustomColorPrimary, {
   CustomColorBase,
+  CustomColorCard,
+  CustomColorMuted,
+  CustomColorPopover,
   CustomColorSecondary,
 } from "./custom-color"
 import EmptyCustom from "./Presence/Empty"
@@ -22,6 +25,12 @@ export default function PreviewTheme() {
         return <CustomColorSecondary />
       case "background":
         return <CustomColorBase />
+      case "card":
+        return <CustomColorCard />
+      case "popover":
+        return <CustomColorPopover />
+      case "muted":
+        return <CustomColorMuted />
       default:
         return (
           <EmptyCustom
