@@ -241,6 +241,20 @@ export const ListColor: ListColorType[] = [
       { name: "Fond de texte", index: "--destructive-foreground" },
     ],
   },
+  {
+    trigger: "sidebar",
+    title: "Barre latérale",
+    color: [
+      { name: "Arrière-plan", index: "--sidebar" },
+      { name: "Texte", index: "--sidebar-foreground" },
+      { name: "Élément principal", index: "--sidebar-primary" },
+      { name: "Texte de l'élément principal", index: "--sidebar-primary-foreground" },
+      { name: "Élément sélectionné", index: "--sidebar-accent" },
+      { name: "Texte de l'élément sélectionné", index: "--sidebar-accent-foreground" },
+      { name: "Séparateur", index: "--sidebar-border" },
+      { name: "Contour de focus", index: "--sidebar-ring" },
+    ],
+  },
 ]
 
 export const ListItemColors: ItemColorSelected[] = [
@@ -275,6 +289,19 @@ export const ListItemColors: ItemColorSelected[] = [
   {
     name: "destructive-element",
     index: ["--destructive", "--destructive-foreground"],
+  },
+  {
+    name: "sidebar",
+    index: [
+      "--sidebar",
+      "--sidebar-foreground",
+      "--sidebar-primary",
+      "--sidebar-primary-foreground",
+      "--sidebar-accent",
+      "--sidebar-accent-foreground",
+      "--sidebar-border",
+      "--sidebar-ring",
+    ],
   },
 ]
 

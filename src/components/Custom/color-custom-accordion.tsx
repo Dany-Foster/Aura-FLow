@@ -1,5 +1,6 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import type { colorsType, ThemeColors } from "@/lib/Type-data.type"
+import { formatHex, parse } from "culori"
 import { useRef } from "react"
 import {
   AccordionContent,
@@ -7,6 +8,19 @@ import {
   AccordionTrigger,
 } from "../ui/accordion"
 import { Input } from "../ui/input"
+
+function toColorPickerValue(value: string | undefined) {
+  if (!value) {
+    return "#000000"
+  }
+
+  try {
+    const parsed = parse(value)
+    return parsed ? formatHex(parsed) : "#000000"
+  } catch {
+    return "#000000"
+  }
+}
 
 export default function ColorCustom({
   Trigger,
@@ -62,7 +76,9 @@ export default function ColorCustom({
               <Input
                 type="color"
                 name=""
-                value={colorActuel ? colorActuel[color.index] : ""}
+                value={toColorPickerValue(
+                  colorActuel ? colorActuel[color.index] : undefined
+                )}
                 onChange={(e) => handleChange(e, color.index)}
                 className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
               />

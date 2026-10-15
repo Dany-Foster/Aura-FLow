@@ -44,6 +44,8 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const UpdateTheme = useThemeManagementStore((state) => state.UpdateTheme)
+  const ActiveCustomThemeId = useThemeManagementStore((state) => state.ActiveCustomThemeId)
+  const ThemeColors = useThemeManagementStore((state) => state.ThemeColors)
   const ThemeSystem = useThemeManagementStore((state) => state.SystemTheme)
   const [themeMode, setThemeModeState] = React.useState<ThemeMode>(() => {
     const storedTheme: ThemeMode | null = JSON.parse(
@@ -78,7 +80,6 @@ export function ThemeProvider({
 
   const applyTheme = React.useCallback(
     (nextTheme: Theme, nextMode: Mode) => {
-      const root = document.documentElement
       const resolvedTheme = nextMode === "system" ? ThemeSystem() : nextMode
       const restoreTransitions = disableTransitionOnChange
         ? disableTransitionsTemporarily()
@@ -88,10 +89,6 @@ export function ThemeProvider({
       }
 
       UpdateTheme(nextTheme, resolvedTheme)
-      const theme = ThemeFont[nextTheme][resolvedTheme]
-      Object.entries(theme).forEach(([property, value]) => {
-        root.style.setProperty(property, value)
-      })
 
       if (restoreTransitions) {
         restoreTransitions()
@@ -104,7 +101,14 @@ export function ThemeProvider({
     const { theme, mode } = themeMode
 
     applyTheme(theme, mode)
-  }, [themeMode, applyTheme])
+  }, [themeMode, applyTheme, ActiveCustomThemeId])
+
+  React.useEffect(() => {
+    if (!ThemeColors) return
+    Object.entries(ThemeColors).forEach(([property, value]) => {
+      document.documentElement.style.setProperty(property, value)
+    })
+  }, [ThemeColors])
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

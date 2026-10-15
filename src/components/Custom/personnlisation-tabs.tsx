@@ -4,27 +4,22 @@ import { Accordion } from "../ui/accordion"
 import { ScrollArea } from "../ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import ColorCustom from "./color-custom-accordion"
+import TypographyCustom from "./typography-custom"
 
 export default function PersonnalisationTabs() {
-  const setItemColorSelected = useThemeManagementStore(
-    (state) => state.setColorSelected
-  )
-  const OnValueChange = (value: string[]) => {
-    if (value[0] === undefined) {
-      setItemColorSelected("", [])
+  const selectColor = useThemeManagementStore((state) => state.setColorSelected)
+  const onValueChange = (value: string[]) => {
+    if (!value[0]) {
+      selectColor("")
       return
     }
-
-    ListItemColors.map((data) => {
-      if (value[0]?.includes(data.name)) {
-        setItemColorSelected(data.name, data.index)
-        return
-      }
+    ListItemColors.forEach((item) => {
+      if (value[0].includes(item.name)) selectColor(item.name)
     })
   }
 
   return (
-    <Tabs defaultValue="" className="lg:w-150">
+    <Tabs defaultValue="Couleur" className="lg:w-150">
       <TabsList>
         {tabs.map((tab) => (
           <TabsTrigger
@@ -36,20 +31,25 @@ export default function PersonnalisationTabs() {
           </TabsTrigger>
         ))}
       </TabsList>
-      <TabsContent value="Couleur" className="">
+      <TabsContent value="Couleur">
         <ScrollArea className="h-101.5 w-full rounded-md border border-foreground/10">
           <div className="p-4">
-            <Accordion onValueChange={OnValueChange}>
-              {ListColor.map((data, index) => (
+            <Accordion onValueChange={onValueChange}>
+              {ListColor.map((item) => (
                 <ColorCustom
-                  key={index}
-                  Trigger={data.trigger}
-                  Titre={data.title}
-                  colors={data.color}
+                  key={item.trigger}
+                  Trigger={item.trigger}
+                  Titre={item.title}
+                  colors={item.color}
                 />
               ))}
             </Accordion>
           </div>
+        </ScrollArea>
+      </TabsContent>
+      <TabsContent value="Typographie">
+        <ScrollArea className="h-101.5 w-full rounded-md border border-foreground/10">
+          <TypographyCustom />
         </ScrollArea>
       </TabsContent>
     </Tabs>

@@ -1,55 +1,38 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
+import type { Theme } from "@/lib/Type-data.type"
 import { useTheme } from "../theme-provider"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "./select"
-
-export default function SelectTheme() {
-  const { themeMode, setTheme } = useTheme()
-  const All = useThemeManagementStore((state) => state.AllTheme)
-
-  const onValueChange = (value: "default" | "claude") => {
-    setTheme(value, themeMode.mode)
+import { Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectTrigger,SelectValue } from "./select"
+export default function SelectTheme(){
+  const {themeMode,setTheme}=useTheme()
+  const builtIns=useThemeManagementStore((state)=>state.AllTheme)
+  const custom=useThemeManagementStore((state)=>state.CustomThemes)
+  const active=useThemeManagementStore((state)=>state.ActiveCustomThemeId)
+  const setActive=useThemeManagementStore((state)=>state.SetActiveCustomTheme)
+  const system=useThemeManagementStore((state)=>state.SystemTheme)
+  const mode=themeMode.mode==="system"?system():themeMode.mode
+  const value=active??themeMode.theme
+  const items=[...builtIns.map((item)=>({label:item.theme,value:item.theme})),...custom.map((item)=>({label:item.name,value:item.id}))]
+  const change=(next:string|null)=>{
+    if(!next)return
+    const saved=custom.find((item)=>item.id===next)
+    if(saved){setTheme(saved.baseTheme,themeMode.mode);setActive(saved.id)}
+    else if(next==="default"||next==="claude"){setActive(null);setTheme(next as Theme,themeMode.mode)}
   }
-  const items = [
-    { label: "Select votre couleur", value: null },
-    { label: "Default", value: "default" },
-    { label: "Claude", value: "Claude" },
-  ]
-
-  return (
-    <Select
-      items={items}
-      defaultValue={themeMode.theme}
-      onValueChange={onValueChange}
-    >
-      <SelectTrigger className="w-full">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Couleur de fond</SelectLabel>
-          {All.map((color) => (
-            <SelectItem value={color.theme}>
-              <div key={color.theme} className="flex flex-1 items-center gap-2">
-                <span
-                  className="inline-block h-2 w-2 rounded-full"
-                  style={{
-                    backgroundColor: `${themeMode.mode === "light" ? color.color[0] : color.color[1]}`,
-                  }}
-                />
-                <span>{color.theme}</span>
-              </div>
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  )
+  return <Select items={items} value={value} onValueChange={change}>
+    <SelectTrigger className="w-full"><SelectValue placeholder="Sélectionner un thème"/></SelectTrigger>
+    <SelectContent>
+      <SelectGroup><SelectLabel>Thèmes intégrés</SelectLabel>
+        {builtIns.map((item)=><SelectItem key={item.theme} value={item.theme}><div className="flex flex-1 items-center gap-2">
+          <span className="inline-block size-2 rounded-full" style={{backgroundColor:item.color[mode==="light"?0:1]}}/>
+          <span>{item.theme==="default"?"Default":"Claude"}</span>
+        </div></SelectItem>)}
+      </SelectGroup>
+      {custom.length>0&&<SelectGroup><SelectLabel>Mes thèmes</SelectLabel>
+        {custom.map((item)=><SelectItem key={item.id} value={item.id}><div className="flex flex-1 items-center gap-2">
+          <span className="inline-block size-2 rounded-full" style={{backgroundColor:item.colorsByMode[mode]["--primary"]}}/>
+          <span>{item.name}</span>
+        </div></SelectItem>)}
+      </SelectGroup>}
+    </SelectContent>
+  </Select>
 }

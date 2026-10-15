@@ -1,3 +1,4 @@
+import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import { Palette, Shuffle } from "lucide-react"
 import { useState } from "react"
 import { useTheme } from "../theme-provider"
@@ -18,6 +19,9 @@ import CustomisationPallette from "./customisation-pallette"
 export default function PalletteDrawer() {
   const [open, setOpen] = useState(false)
   const { themeMode, setTheme } = useTheme()
+  const resetThemeColors = useThemeManagementStore(
+    (state) => state.ResetThemeCustom
+  )
 
   const handleChangeTheme = (
     theme: "default" | "claude",
@@ -93,6 +97,7 @@ export default function PalletteDrawer() {
                 <Button
                   variant="secondary"
                   className="border-forgroound flex-1 border"
+                  onClick={resetThemeColors}
                 />
               }
             >

@@ -63,6 +63,7 @@ type ThemeColors = {
 type Theme = "default" | "claude"
 type Mode = "dark" | "light" | "system"
 type ThemeMode = { theme: Theme; mode: Mode }
+type SavedCustomTheme = { id: string; name: string; baseTheme: Theme; colorsByMode: { dark: ThemeColors; light: ThemeColors } }
 type ThemeAndColor = {
   theme: string
   color: string[]
@@ -77,7 +78,7 @@ type ThemeProviderProps = {
 
 type ItemColorSelected = {
   name: string
-  index: (keyof ThemeColors)[]
+  index?: (keyof ThemeColors)[]
 }
 type ThemeProviderState = {
   themeMode: ThemeMode
@@ -87,14 +88,19 @@ type ThemeProviderState = {
 type ThemeState = {
   SystemTheme: () => "dark" | "light"
   AllTheme: ThemeAndColor[]
+  CustomThemes: SavedCustomTheme[]
+  ActiveCustomThemeId: string | null
   ThemeColors: ThemeColors | null
   ThemeColorCustom: ThemeColors | null
   ItemColorSelected: ItemColorSelected | null
   Reset: () => void
-  UpdateThemeCustom: () => void
+  ResetThemeCustom: () => void
+  UpdateThemeCustom: (theme: Theme, mode: Mode) => void
   UpdateTheme: (theme: Theme, mode: "dark" | "light") => void
+  SaveCustomTheme: (name: string, baseTheme: Theme, mode: Mode) => void
+  SetActiveCustomTheme: (id: string | null) => void
   setTheme: (index: keyof ThemeColors, color: string) => void
-  setColorSelected: (name: string, index: (keyof ThemeColors)[]) => void
+  setColorSelected: (name: string) => void
 }
 
 type colorsType = {
@@ -113,6 +119,7 @@ export type {
   ItemColorSelected,
   ListColorType,
   Mode,
+  SavedCustomTheme,
   Theme,
   ThemeAndColor,
   ThemeColors,
