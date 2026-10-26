@@ -1,5 +1,7 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
+
 import { Palette } from "lucide-react"
+import type { ChangeEvent } from "react"
 import { useState } from "react"
 import { useTheme } from "../theme-provider"
 import { Button } from "../ui/button"
@@ -7,13 +9,14 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog"
+import { Input } from "../ui/input"
 import { CustomPalette } from "../ui/palette"
 import PersonnalisationTabs from "./personnlisation-tabs"
-import PreviewTheme from "./preview-theme"
 
 export default function CustomisationPallette() {
   const [open, setOpen] = useState(false)
@@ -62,18 +65,52 @@ export default function CustomisationPallette() {
         </DialogHeader>
         <div className="justify-arround flex min-h-102 min-w-full items-start gap-2">
           <PersonnalisationTabs />
-          <PreviewTheme
-            isCreatingTheme={creating}
-            themeName={themeName}
-            onCreateTheme={() => setCreating(true)}
-            onThemeNameChange={setThemeName}
-            onValidate={validate}
-            onCancelCreate={() => {
-              setCreating(false)
-              setThemeName("")
-            }}
-          />
         </div>
+        <DialogFooter className="">
+          <div className="flex w-full justify-end">
+            {!creating ? (
+              <Button
+                type="button"
+                variant="outline"
+                className="w-auto"
+                onClick={() => setCreating(true)}
+              >
+                Validation du thème
+              </Button>
+            ) : (
+              <div className="flex w-full items-center gap-2">
+                <Input
+                  aria-label="Nom du nouveau thème"
+                  autoFocus
+                  className="w-full"
+                  maxLength={40}
+                  placeholder="Nom du thème"
+                  value={themeName}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                    setThemeName(event.target.value)
+                  }
+                />
+                <Button
+                  type="button"
+                  disabled={!themeName.trim()}
+                  onClick={validate}
+                >
+                  Valider
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setCreating(false)
+                    setThemeName("")
+                  }}
+                >
+                  Annuler
+                </Button>
+              </div>
+            )}
+          </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

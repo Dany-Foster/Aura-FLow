@@ -24,6 +24,12 @@ type ThemeColors = {
   "--chart-3": string
   "--chart-4": string
   "--chart-5": string
+  "--chart-6": string
+  "--chart-7": string
+  "--chart-8": string
+  "--chart-highlight": string
+  "--chart-positive": string
+  "--chart-negative": string
 
   "--sidebar": string
   "--sidebar-foreground": string
@@ -100,8 +106,23 @@ type ThemeState = {
   SaveCustomTheme: (name: string, baseTheme: Theme, mode: Mode) => void
   SetActiveCustomTheme: (id: string | null) => void
   setTheme: (index: keyof ThemeColors, color: string) => void
+  resetChartColor: (index: ChartColorKey) => string
+  resetChartPalette: () => void
   setColorSelected: (name: string) => void
 }
+
+type ChartColorKey =
+  | "--chart-1"
+  | "--chart-2"
+  | "--chart-3"
+  | "--chart-4"
+  | "--chart-5"
+  | "--chart-6"
+  | "--chart-7"
+  | "--chart-8"
+  | "--chart-highlight"
+  | "--chart-positive"
+  | "--chart-negative"
 
 type colorsType = {
   name: string
@@ -116,6 +137,7 @@ type ListColorType = {
 
 export type {
   colorsType,
+  ChartColorKey,
   ItemColorSelected,
   ListColorType,
   Mode,

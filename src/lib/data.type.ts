@@ -170,10 +170,7 @@ export const datadropMenu = {
 
 export const tabs = [
   { value: "Couleur", label: "Couleur" },
-  { value: "Typographie", label: "Typographie" },
-  { value: "Radius", label: "Radius" },
-  { value: "Chart", label: "Chart" },
-  { value: "Shadow", label: "Shadow" },
+  { value: "Chart", label: "Couleurs des graphiques" },
 ]
 
 export const ListColor: ListColorType[] = [
@@ -248,9 +245,15 @@ export const ListColor: ListColorType[] = [
       { name: "Arrière-plan", index: "--sidebar" },
       { name: "Texte", index: "--sidebar-foreground" },
       { name: "Élément principal", index: "--sidebar-primary" },
-      { name: "Texte de l'élément principal", index: "--sidebar-primary-foreground" },
+      {
+        name: "Texte de l'élément principal",
+        index: "--sidebar-primary-foreground",
+      },
       { name: "Élément sélectionné", index: "--sidebar-accent" },
-      { name: "Texte de l'élément sélectionné", index: "--sidebar-accent-foreground" },
+      {
+        name: "Texte de l'élément sélectionné",
+        index: "--sidebar-accent-foreground",
+      },
       { name: "Séparateur", index: "--sidebar-border" },
       { name: "Contour de focus", index: "--sidebar-ring" },
     ],

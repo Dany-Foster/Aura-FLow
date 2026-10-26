@@ -2,6 +2,7 @@ import { ThemeFont } from "@/lib/color-theme"
 import { FONT_CATALOG } from "@/lib/font-catalog"
 import type {
   Mode,
+  ChartColorKey,
   SavedCustomTheme,
   Theme,
   ThemeColors,
@@ -14,6 +15,20 @@ const THEME_KEY = "Theme"
 const COLOR_PREFIX = "aura-flow:custom-colors:"
 const CUSTOM_THEMES_KEY = "aura-flow:custom-themes"
 const ACTIVE_THEME_KEY = "aura-flow:active-custom-theme"
+const THEME_EXISTANT = Object.keys(ThemeFont)
+const CHART_COLOR_KEYS: ChartColorKey[] = [
+  "--chart-1",
+  "--chart-2",
+  "--chart-3",
+  "--chart-4",
+  "--chart-5",
+  "--chart-6",
+  "--chart-7",
+  "--chart-8",
+  "--chart-highlight",
+  "--chart-positive",
+  "--chart-negative",
+]
 const COLOR_PATTERN =
   /^(#[0-9a-f]{3,8}|(?:oklch|hsl|hsla|rgb|rgba)\([0-9a-z.%\s,+/()-]+\))$/i
 const SAFE_PATTERN = /^[0-9a-z.%#(),/ +*-]+$/i
@@ -49,7 +64,9 @@ function resolveMode(mode: Mode): "dark" | "light" {
   return mode === "system" ? getSystemTheme() : mode
 }
 function isTheme(value: unknown): value is Theme {
-  return value === "default" || value === "claude"
+  if (typeof value !== "string") return false
+  if (!THEME_EXISTANT.includes(value)) return false
+  return THEME_EXISTANT.includes(value)
 }
 function readThemeMode(): ThemeMode | null {
   try {
@@ -64,7 +81,7 @@ function readThemeMode(): ThemeMode | null {
     )
       return { theme: raw.theme, mode: raw.mode }
   } catch {
-    /* préférence locale invalide */
+    return { theme: "default", mode: "system" }
   }
   return null
 }
@@ -74,7 +91,7 @@ function colorKey(theme: Theme, mode: "dark" | "light") {
 function isSafeValue(property: string, value: unknown): value is string {
   if (typeof value !== "string" || value.length > 180) return false
   const token = value.trim()
-  if (/[;{}<>\\]/.test(token)) return false
+  if (/[;{}:<>\\]/.test(token)) return false
   if (property.startsWith("--font-")) return SAFE_FONTS.has(token)
   if (property.startsWith("--shadow") && property !== "--shadow-color")
     return SAFE_PATTERN.test(token)
@@ -243,5 +260,33 @@ export const useThemeManagementStore = create<ThemeState>((set, get) => ({
         ? { ThemeColorCustom: { ...state.ThemeColorCustom, [index]: color } }
         : {}
     ),
+  resetChartColor: (index) => {
+    const stored = readThemeMode(),
+      theme = stored?.theme ?? "default",
+      mode = resolveMode(stored?.mode ?? "system")
+    set((state) =>
+      state.ThemeColorCustom
+        ? {
+            ThemeColorCustom: {
+              ...state.ThemeColorCustom,
+              [index]: ThemeFont[theme][mode][index],
+            },
+          }
+        : {}
+    )
+    return ThemeFont[theme][mode][index]
+  },
+  resetChartPalette: () => {
+    const stored = readThemeMode(),
+      theme = stored?.theme ?? "default",
+      mode = resolveMode(stored?.mode ?? "system")
+    set((state) => {
+      if (!state.ThemeColorCustom) return {}
+      const ThemeColorCustom = { ...state.ThemeColorCustom }
+      for (const key of CHART_COLOR_KEYS)
+        ThemeColorCustom[key] = ThemeFont[theme][mode][key]
+      return { ThemeColorCustom }
+    })
+  },
   setColorSelected: (name) => set({ ItemColorSelected: { name } }),
 }))

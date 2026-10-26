@@ -3,8 +3,9 @@ import { ListColor, ListItemColors, tabs } from "@/lib/data.type"
 import { Accordion } from "../ui/accordion"
 import { ScrollArea } from "../ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import ChartColorCustom from "./chart-color-custom"
 import ColorCustom from "./color-custom-accordion"
-import TypographyCustom from "./typography-custom"
+import PreviewTheme from "./preview-theme"
 
 export default function PersonnalisationTabs() {
   const selectColor = useThemeManagementStore((state) => state.setColorSelected)
@@ -19,7 +20,7 @@ export default function PersonnalisationTabs() {
   }
 
   return (
-    <Tabs defaultValue="Couleur" className="lg:w-150">
+    <Tabs defaultValue="Couleur" className="w-full lg:w-full">
       <TabsList>
         {tabs.map((tab) => (
           <TabsTrigger
@@ -31,26 +32,29 @@ export default function PersonnalisationTabs() {
           </TabsTrigger>
         ))}
       </TabsList>
-      <TabsContent value="Couleur">
-        <ScrollArea className="h-101.5 w-full rounded-md border border-foreground/10">
-          <div className="p-4">
-            <Accordion onValueChange={onValueChange}>
-              {ListColor.map((item) => (
-                <ColorCustom
-                  key={item.trigger}
-                  Trigger={item.trigger}
-                  Titre={item.title}
-                  colors={item.color}
-                />
-              ))}
-            </Accordion>
+      <TabsContent value="Couleur" className="w-full">
+        <div className="flex w-full items-center justify-center gap-2">
+          <div className="w-full lg:w-1/2">
+            <ScrollArea className="h-101.5 w-full rounded-md border border-foreground/10">
+              <div className="p-4">
+                <Accordion onValueChange={onValueChange}>
+                  {ListColor.map((item) => (
+                    <ColorCustom
+                      key={item.trigger}
+                      Trigger={item.trigger}
+                      Titre={item.title}
+                      colors={item.color}
+                    />
+                  ))}
+                </Accordion>
+              </div>
+            </ScrollArea>
           </div>
-        </ScrollArea>
+          <PreviewTheme />
+        </div>
       </TabsContent>
-      <TabsContent value="Typographie">
-        <ScrollArea className="h-101.5 w-full rounded-md border border-foreground/10">
-          <TypographyCustom />
-        </ScrollArea>
+      <TabsContent value="Chart" className="w-full">
+        <ChartColorCustom />
       </TabsContent>
     </Tabs>
   )
