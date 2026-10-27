@@ -171,6 +171,7 @@ export const datadropMenu = {
 export const tabs = [
   { value: "Couleur", label: "Couleur" },
   { value: "Chart", label: "Couleurs des graphiques" },
+  { value: "Radius-shadow", label: "Coin arrondie et shadow" },
 ]
 
 export const ListColor: ListColorType[] = [

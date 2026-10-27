@@ -23,7 +23,7 @@ export default function AppSidebar({
       <SidebarHeader className={`px-2 ${open ? "py-1" : "py-2"}`}>
         <EntrepriseMenu />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="scroll-fade-y">
         <NavTravail
           selectItem={selectItem}
           setSelectedItem={setSelectedItem}

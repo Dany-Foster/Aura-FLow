@@ -1,3 +1,5 @@
+import type { ThemeFont } from "./color-theme"
+
 type ThemeColors = {
   "--background": string
   "--foreground": string
@@ -66,10 +68,15 @@ type ThemeColors = {
   "--spacing": string
 }
 
-type Theme = "default" | "claude"
+type Theme = keyof typeof ThemeFont
 type Mode = "dark" | "light" | "system"
 type ThemeMode = { theme: Theme; mode: Mode }
-type SavedCustomTheme = { id: string; name: string; baseTheme: Theme; colorsByMode: { dark: ThemeColors; light: ThemeColors } }
+type SavedCustomTheme = {
+  id: string
+  name: string
+  baseTheme: Theme
+  colorsByMode: { dark: ThemeColors; light: ThemeColors }
+}
 type ThemeAndColor = {
   theme: string
   color: string[]
@@ -136,8 +143,8 @@ type ListColorType = {
 }
 
 export type {
-  colorsType,
   ChartColorKey,
+  colorsType,
   ItemColorSelected,
   ListColorType,
   Mode,

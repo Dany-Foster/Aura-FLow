@@ -120,8 +120,8 @@ export default function ChartColorCustom() {
 
   return (
     <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(260px,0.8fr)_minmax(0,2fr)]">
-      <ScrollArea className="h-101">
-        <div className="space-y-4 rounded-md pr-4">
+      <div className="h-101 scroll-fade scrollbar-none overflow-y-auto rounded-md pr-4">
+        <div className="space-y-4">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base">Palette des séries</CardTitle>
@@ -158,19 +158,19 @@ export default function ChartColorCustom() {
             </CardContent>
           </Card>
         </div>
-      </ScrollArea>
+      </div>
 
       <section className="hidden min-w-0 space-y-3 lg:block">
-        <ScrollArea className="h-101 overflow-hidden rounded-md">
-          <div className="pr-4 pb-2 pl-0">
-            <div className="h-max space-x-4">
-              <h2 className="text-base font-semibold">Aperçu des graphiques</h2>
-              <p className="text-sm text-muted-foreground">
-                Modifiez une couleur pour voir instantanément son effet sur les
-                visualisations.
-              </p>
-            </div>
-            <div className="mt-2 grid max-h-[72vh] min-w-0 grid-cols-1 gap-3 md:grid-cols-2 2xl:grid-cols-3">
+        <div className="overflow-hidden">
+          <div className="h-max space-x-4">
+            <h2 className="text-base font-semibold">Aperçu des graphiques</h2>
+            <p className="text-sm text-muted-foreground">
+              Modifiez une couleur pour voir instantanément son effet sur les
+              visualisations.
+            </p>
+          </div>
+          <ScrollArea className="mt-2 h-88 scroll-fade rounded-md">
+            <div className="mt-2 grid max-h-[72vh] min-w-0 grid-cols-1 gap-3 pr-4 pb-2 pl-0 md:grid-cols-2 2xl:grid-cols-3">
               {CHART_PREVIEW_DATA.map((chart) => (
                 <PreviewChartCard
                   key={chart.id}
@@ -179,8 +179,8 @@ export default function ChartColorCustom() {
                 />
               ))}
             </div>
-          </div>
-        </ScrollArea>
+          </ScrollArea>
+        </div>
       </section>
     </div>
   )

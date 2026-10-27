@@ -1,4 +1,5 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
+import type { ThemeFont } from "@/lib/color-theme"
 import { Palette, Shuffle } from "lucide-react"
 import { useState } from "react"
 import { useTheme } from "../theme-provider"
@@ -24,7 +25,7 @@ export default function PalletteDrawer() {
   )
 
   const handleChangeTheme = (
-    theme: "default" | "claude",
+    theme: keyof typeof ThemeFont,
     type: "dark" | "light" | "system"
   ) => {
     setTheme(theme, type)
