@@ -1,40 +1,20 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import type { ChartColorKey, ThemeColors } from "@/lib/Type-data.type"
 import { CHART_PREVIEW_DATA, type PreviewChart } from "@/lib/chart-preview-data"
-import { formatHex, parse } from "culori"
-import { RotateCcw } from "lucide-react"
+import { COLOR_SETTINGS, colorFor, toHex } from "@/lib/data.type"
+import { Info, RotateCcw } from "lucide-react"
 import { useRef, useState } from "react"
 import { Button } from "../ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
-
-const SERIES_KEYS: ChartColorKey[] = [
-  "--chart-1",
-  "--chart-2",
-  "--chart-3",
-  "--chart-4",
-  "--chart-5",
-  "--chart-6",
-  "--chart-7",
-  "--chart-8",
-]
-
-const COLOR_SETTINGS: { key: ChartColorKey; label: string }[] = [
-  ...SERIES_KEYS.map((key, index) => ({ key, label: `Série ${index + 1}` })),
-  { key: "--chart-highlight", label: "Mise en évidence" },
-  { key: "--chart-positive", label: "Valeur positive" },
-  { key: "--chart-negative", label: "Valeur négative" },
-]
-
-function toHex(color: string) {
-  try {
-    const parsed = parse(color)
-    return parsed ? formatHex(parsed).toUpperCase() : "#000000"
-  } catch {
-    return "#000000"
-  }
-}
 
 function ChartColorRow({
   colorKey,
@@ -120,15 +100,32 @@ export default function ChartColorCustom() {
 
   return (
     <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(260px,0.8fr)_minmax(0,2fr)]">
-      <div className="h-101 scroll-fade scrollbar-none overflow-y-auto rounded-md pr-4">
-        <div className="space-y-4">
-          <Card>
-            <CardHeader className="pb-3">
+      <ScrollArea className="h-101 rounded-md pr-4">
+        <div className="space-y-2">
+          <Card className="">
+            <CardHeader className="flex items-center justify-between pb-1">
               <CardTitle className="text-base">Palette des séries</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Les huit couleurs sont partagées entre les types de graphiques
-                et servent de palette par défaut pour les nouvelles séries.
-              </p>
+              <HoverCard>
+                <HoverCardTrigger
+                  delay={50}
+                  closeDelay={50}
+                  render={
+                    <Button size="icon" variant="ghost" aria-label="Aide">
+                      <Info />
+                    </Button>
+                  }
+                />
+                <HoverCardContent side="right">
+                  <CardTitle className="text-base">
+                    Manuelle d'utlisation
+                  </CardTitle>
+                  <CardDescription>
+                    Les huit couleurs sont partagées entre les types de
+                    graphiques et servent de palette par défaut pour les
+                    nouvelles séries.
+                  </CardDescription>
+                </HoverCardContent>
+              </HoverCard>
             </CardHeader>
             <CardContent className="space-y-3">
               {COLOR_SETTINGS.slice(0, 8).map(({ key, label }) => (
@@ -158,7 +155,7 @@ export default function ChartColorCustom() {
             </CardContent>
           </Card>
         </div>
-      </div>
+      </ScrollArea>
 
       <section className="hidden min-w-0 space-y-3 lg:block">
         <div className="overflow-hidden">
@@ -169,6 +166,7 @@ export default function ChartColorCustom() {
               visualisations.
             </p>
           </div>
+          <div></div>
           <ScrollArea className="mt-2 h-88 scroll-fade rounded-md">
             <div className="mt-2 grid max-h-[72vh] min-w-0 grid-cols-1 gap-3 pr-4 pb-2 pl-0 md:grid-cols-2 2xl:grid-cols-3">
               {CHART_PREVIEW_DATA.map((chart) => (
@@ -184,18 +182,6 @@ export default function ChartColorCustom() {
       </section>
     </div>
   )
-}
-
-const PALETTE_KEYS: ChartColorKey[] = SERIES_KEYS
-const SEMANTIC_KEYS: ChartColorKey[] = [
-  "--chart-highlight",
-  "--chart-positive",
-  "--chart-negative",
-]
-
-function colorFor(index: number, colors: ThemeColors) {
-  const key = index < 8 ? PALETTE_KEYS[index] : SEMANTIC_KEYS[index - 8]
-  return colors[key] ?? colors["--chart-1"]
 }
 
 function PreviewChartCard({

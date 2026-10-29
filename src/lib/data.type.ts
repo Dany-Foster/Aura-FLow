@@ -1,3 +1,4 @@
+import { formatHex, parse } from "culori"
 import {
   Archive,
   BadgeCheck,
@@ -18,7 +19,13 @@ import {
   Van,
   Warehouse,
 } from "lucide-react"
-import type { ItemColorSelected, ListColorType, Mode } from "./Type-data.type"
+import type {
+  ChartColorKey,
+  ItemColorSelected,
+  ListColorType,
+  Mode,
+  ThemeColors,
+} from "./Type-data.type"
 
 export const datadropMenuEntreprise = [
   {
@@ -309,6 +316,8 @@ export const ListItemColors: ItemColorSelected[] = [
   },
 ]
 
+/* fonction de gestion des couleurs du thème */
+
 export const MODE_THEME_VALUES: Mode[] = ["dark", "light", "system"]
 
 export function isMode(value: string | null): value is Mode {
@@ -336,4 +345,43 @@ export function disableTransitionsTemporarily() {
       })
     })
   }
+}
+
+/* fonction de conversion en hexadécimal des couleurs okhsv et rgb, ainsi que les configurations chart color */
+export function toHex(color: string) {
+  try {
+    const parsed = parse(color)
+    return parsed ? formatHex(parsed).toUpperCase() : "#000000"
+  } catch {
+    return "#000000"
+  }
+}
+
+export const SERIES_KEYS: ChartColorKey[] = [
+  "--chart-1",
+  "--chart-2",
+  "--chart-3",
+  "--chart-4",
+  "--chart-5",
+  "--chart-6",
+  "--chart-7",
+  "--chart-8",
+]
+
+export const COLOR_SETTINGS: { key: ChartColorKey; label: string }[] = [
+  ...SERIES_KEYS.map((key, index) => ({ key, label: `Série ${index + 1}` })),
+  { key: "--chart-highlight", label: "Mise en évidence" },
+  { key: "--chart-positive", label: "Valeur positive" },
+  { key: "--chart-negative", label: "Valeur négative" },
+]
+
+export const SEMANTIC_KEYS: ChartColorKey[] = [
+  "--chart-highlight",
+  "--chart-positive",
+  "--chart-negative",
+]
+
+export function colorFor(index: number, colors: ThemeColors) {
+  const key = index < 8 ? SERIES_KEYS[index] : SEMANTIC_KEYS[index - 8]
+  return colors[key] ?? colors["--chart-1"]
 }
