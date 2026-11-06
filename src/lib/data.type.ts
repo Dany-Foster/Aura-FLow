@@ -1,4 +1,3 @@
-import { formatHex, parse } from "culori"
 import {
   Archive,
   BadgeCheck,
@@ -19,13 +18,7 @@ import {
   Van,
   Warehouse,
 } from "lucide-react"
-import type {
-  ChartColorKey,
-  ItemColorSelected,
-  ListColorType,
-  Mode,
-  ThemeColors,
-} from "./Type-data.type"
+import type { ItemColorSelected, ListColorType } from "./Type-data.type"
 
 export const datadropMenuEntreprise = [
   {
@@ -47,49 +40,49 @@ export const datadropMenu = {
     {
       id: 1,
       titre: "Tableau de bord",
-      url: "#",
+      url: "",
       icon: LayoutDashboard,
     },
     {
       id: 2,
       titre: "Notifications",
-      url: "#",
+      url: "notification",
       icon: BellRing,
     },
     {
       id: 3,
       titre: "KPIs",
-      url: "#",
+      url: "kpis",
       icon: ChartNoAxesCombined,
     },
     {
       id: 4,
       titre: "Planification",
-      url: "#",
+      url: "planification",
       icon: CalendarDays,
     },
     {
       id: 5,
       titre: "Tâches",
-      url: "#",
+      url: "taches",
       icon: ListTodo,
     },
     {
       id: 6,
       titre: "Rapport et Analyse",
-      url: "#",
+      url: "rapports-analyse",
       icon: FileChartLine,
     },
     {
       id: 7,
       titre: "Activités commerciales",
-      url: "#",
+      url: "activites-commerciales",
       icon: SquareActivity,
     },
     {
       id: 8,
       titre: "Validations",
-      url: "#",
+      url: "validations",
       icon: BadgeCheck,
     },
   ],
@@ -97,13 +90,13 @@ export const datadropMenu = {
     {
       id: 1,
       titre: "Familles",
-      url: "#",
+      url: "Familles",
       icon: Blocks,
     },
     {
       id: 2,
       titre: "Articles",
-      url: "#",
+      url: "Articles",
       icon: Package,
     },
   ],
@@ -111,13 +104,13 @@ export const datadropMenu = {
     {
       id: 1,
       titre: "Clients",
-      url: "#",
+      url: "Clients",
       icon: LayoutDashboard,
     },
     {
       id: 2,
       titre: "Fournisseurs",
-      url: "#",
+      url: "Fournisseurs",
       icon: LayoutDashboard,
     },
   ],
@@ -125,37 +118,37 @@ export const datadropMenu = {
     {
       id: 1,
       titre: "Achat",
-      url: "#",
+      url: "Achat",
       icon: ShoppingCart,
     },
     {
       id: 2,
       titre: "Vente",
-      url: "#",
+      url: "Vente",
       icon: Store,
     },
     {
       id: 3,
       titre: "Stock",
-      url: "#",
+      url: "Stock",
       icon: Warehouse,
     },
     {
       id: 4,
       titre: "Inventaires",
-      url: "#",
+      url: "Inventaires",
       icon: ShelvingUnit,
     },
     {
       id: 5,
       titre: "Caisses",
-      url: "#",
+      url: "Caisses",
       icon: Archive,
     },
     {
       id: 6,
       titre: "Logistiques",
-      url: "#",
+      url: "Logistiques",
       icon: Van,
     },
   ],
@@ -163,13 +156,13 @@ export const datadropMenu = {
     {
       id: 1,
       titre: "Paramètres",
-      url: "#",
+      url: "Paramètres",
       icon: Settings2,
     },
     {
       id: 2,
       titre: "Administration",
-      url: "#",
+      url: "Administration",
       icon: UserCog,
     },
   ],
@@ -316,72 +309,12 @@ export const ListItemColors: ItemColorSelected[] = [
   },
 ]
 
-/* fonction de gestion des couleurs du thème */
-
-export const MODE_THEME_VALUES: Mode[] = ["dark", "light", "system"]
-
-export function isMode(value: string | null): value is Mode {
-  if (value === null) {
-    return false
-  }
-
-  return MODE_THEME_VALUES.includes(value as Mode)
-}
-
-export function disableTransitionsTemporarily() {
-  const style = document.createElement("style")
-  style.appendChild(
-    document.createTextNode(
-      "*,*::before,*::after{-webkit-transition:none!important;transition:none!important}"
-    )
-  )
-  document.head.appendChild(style)
-
-  return () => {
-    window.getComputedStyle(document.body)
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        style.remove()
-      })
-    })
-  }
-}
-
-/* fonction de conversion en hexadécimal des couleurs okhsv et rgb, ainsi que les configurations chart color */
-export function toHex(color: string) {
-  try {
-    const parsed = parse(color)
-    return parsed ? formatHex(parsed).toUpperCase() : "#000000"
-  } catch {
-    return "#000000"
-  }
-}
-
-export const SERIES_KEYS: ChartColorKey[] = [
-  "--chart-1",
-  "--chart-2",
-  "--chart-3",
-  "--chart-4",
-  "--chart-5",
-  "--chart-6",
-  "--chart-7",
-  "--chart-8",
+export const DateList = [
+  { label: "Aujourd'hui", value: "T" },
+  { label: "Hier", value: "H" },
+  { label: "Cette semaine", value: "S" },
+  { label: "Il y a 7 jours", value: "-7J" },
+  { label: "Il y a 28 jours", value: "-28J" },
+  { label: "Mois dernier", value: "-M" },
+  { label: "L'année dernière", value: "-A" },
 ]
-
-export const COLOR_SETTINGS: { key: ChartColorKey; label: string }[] = [
-  ...SERIES_KEYS.map((key, index) => ({ key, label: `Série ${index + 1}` })),
-  { key: "--chart-highlight", label: "Mise en évidence" },
-  { key: "--chart-positive", label: "Valeur positive" },
-  { key: "--chart-negative", label: "Valeur négative" },
-]
-
-export const SEMANTIC_KEYS: ChartColorKey[] = [
-  "--chart-highlight",
-  "--chart-positive",
-  "--chart-negative",
-]
-
-export function colorFor(index: number, colors: ThemeColors) {
-  const key = index < 8 ? SERIES_KEYS[index] : SEMANTIC_KEYS[index - 8]
-  return colors[key] ?? colors["--chart-1"]
-}

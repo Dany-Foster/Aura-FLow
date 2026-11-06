@@ -1,14 +1,14 @@
 import { LogOut, Moon, Settings, User } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar"
-import { Button } from "./button"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Button } from "../ui/button"
 import {
   Popover,
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-} from "./popover"
-import { Separator } from "./separator"
-import { Switch } from "./switch"
+} from "../ui/popover"
+import { Separator } from "../ui/separator"
+import { Switch } from "../ui/switch"
 
 export default function PopoverProfil() {
   return (

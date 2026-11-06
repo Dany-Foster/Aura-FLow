@@ -1,8 +1,8 @@
 import { ThemeFont } from "@/lib/color-theme"
 import { FONT_CATALOG } from "@/lib/font-catalog"
 import type {
+  ColorKey,
   Mode,
-  ChartColorKey,
   SavedCustomTheme,
   Theme,
   ThemeColors,
@@ -16,7 +16,7 @@ const COLOR_PREFIX = "aura-flow:custom-colors:"
 const CUSTOM_THEMES_KEY = "aura-flow:custom-themes"
 const ACTIVE_THEME_KEY = "aura-flow:active-custom-theme"
 const THEME_EXISTANT = Object.keys(ThemeFont)
-const CHART_COLOR_KEYS: ChartColorKey[] = [
+const CHART_COLOR_KEYS: ColorKey[] = [
   "--chart-1",
   "--chart-2",
   "--chart-3",
@@ -260,7 +260,7 @@ export const useThemeManagementStore = create<ThemeState>((set, get) => ({
         ? { ThemeColorCustom: { ...state.ThemeColorCustom, [index]: color } }
         : {}
     ),
-  resetChartColor: (index) => {
+  resetColor: (index: ColorKey) => {
     const stored = readThemeMode(),
       theme = stored?.theme ?? "default",
       mode = resolveMode(stored?.mode ?? "system")

@@ -5,6 +5,7 @@ import { ScrollArea } from "../ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import ChartColorCustom from "./chart-color-custom"
 import ColorCustom from "./color-custom-accordion"
+import CustomRadiusShadow from "./custom-radius-shadow"
 import PreviewTheme from "./preview-theme"
 
 export default function PersonnalisationTabs() {
@@ -55,6 +56,9 @@ export default function PersonnalisationTabs() {
       </TabsContent>
       <TabsContent value="Chart" className="w-full">
         <ChartColorCustom />
+      </TabsContent>
+      <TabsContent value="Radius-shadow" className="w-full">
+        <CustomRadiusShadow />
       </TabsContent>
     </Tabs>
   )

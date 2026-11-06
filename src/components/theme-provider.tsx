@@ -1,6 +1,5 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
 import { ThemeFont } from "@/lib/color-theme"
-import { disableTransitionsTemporarily, isMode } from "@/lib/data.type"
 import type {
   Mode,
   Theme,
@@ -8,6 +7,7 @@ import type {
   ThemeProviderProps,
   ThemeProviderState,
 } from "@/lib/Type-data.type"
+import { disableTransitionsTemporarily, isMode } from "@/lib/utils"
 import * as React from "react"
 
 const ThemeProviderContext = React.createContext<
@@ -44,7 +44,9 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const UpdateTheme = useThemeManagementStore((state) => state.UpdateTheme)
-  const ActiveCustomThemeId = useThemeManagementStore((state) => state.ActiveCustomThemeId)
+  const ActiveCustomThemeId = useThemeManagementStore(
+    (state) => state.ActiveCustomThemeId
+  )
   const ThemeColors = useThemeManagementStore((state) => state.ThemeColors)
   const ThemeSystem = useThemeManagementStore((state) => state.SystemTheme)
   const [themeMode, setThemeModeState] = React.useState<ThemeMode>(() => {

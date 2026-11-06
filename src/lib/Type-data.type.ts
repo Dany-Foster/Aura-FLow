@@ -71,6 +71,7 @@ type ThemeColors = {
 type Theme = keyof typeof ThemeFont
 type Mode = "dark" | "light" | "system"
 type ThemeMode = { theme: Theme; mode: Mode }
+
 type SavedCustomTheme = {
   id: string
   name: string
@@ -113,23 +114,14 @@ type ThemeState = {
   SaveCustomTheme: (name: string, baseTheme: Theme, mode: Mode) => void
   SetActiveCustomTheme: (id: string | null) => void
   setTheme: (index: keyof ThemeColors, color: string) => void
-  resetChartColor: (index: ChartColorKey) => string
+  resetColor: (index: ColorKey) => string
   resetChartPalette: () => void
   setColorSelected: (name: string) => void
 }
 
-type ChartColorKey =
-  | "--chart-1"
-  | "--chart-2"
-  | "--chart-3"
-  | "--chart-4"
-  | "--chart-5"
-  | "--chart-6"
-  | "--chart-7"
-  | "--chart-8"
-  | "--chart-highlight"
-  | "--chart-positive"
-  | "--chart-negative"
+type ColorKey = Extract<keyof ThemeColors, string>
+type ChartColorKey = Extract<ColorKey, `--chart-${string}`>
+type ColorBase = Exclude<ColorKey, `--chart-${string}`>
 
 type colorsType = {
   name: string
@@ -144,6 +136,8 @@ type ListColorType = {
 
 export type {
   ChartColorKey,
+  ColorBase,
+  ColorKey,
   colorsType,
   ItemColorSelected,
   ListColorType,

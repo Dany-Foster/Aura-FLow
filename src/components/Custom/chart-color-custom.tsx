@@ -1,9 +1,8 @@
 import { useThemeManagementStore } from "@/hooks/ThemeManagement"
-import type { ChartColorKey, ThemeColors } from "@/lib/Type-data.type"
+import type { ThemeColors } from "@/lib/Type-data.type"
 import { CHART_PREVIEW_DATA, type PreviewChart } from "@/lib/chart-preview-data"
-import { COLOR_SETTINGS, colorFor, toHex } from "@/lib/data.type"
-import { Info, RotateCcw } from "lucide-react"
-import { useRef, useState } from "react"
+import { COLOR_SETTINGS, colorFor } from "@/lib/utils"
+import { Info } from "lucide-react"
 import { Button } from "../ui/button"
 import {
   Card,
@@ -13,85 +12,8 @@ import {
   CardTitle,
 } from "../ui/card"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
-import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
-
-function ChartColorRow({
-  colorKey,
-  label,
-  color,
-}: {
-  colorKey: ChartColorKey
-  label: string
-  color: string
-}) {
-  const [hex, setHex] = useState(() => toHex(color))
-  const setThemeColor = useThemeManagementStore((state) => state.setTheme)
-  const resetColor = useThemeManagementStore((state) => state.resetChartColor)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const applyHex = (value: string) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-    }
-
-    if (!value) {
-      return
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      // La couleur est appliquée uniquement
-      // après que le sélecteur est resté immobile
-      setHex(value.toUpperCase())
-      if (/^#(?:[\da-f]{3}|[\da-f]{4}|[\da-f]{6}|[\da-f]{8})$/i.test(value))
-        setThemeColor(colorKey, value)
-    }, 300)
-  }
-
-  return (
-    <div className="flex items-center gap-2.5">
-      <label
-        className="relative size-8 shrink-0 overflow-hidden rounded-md border shadow-sm"
-        style={{ backgroundColor: color }}
-        title={`Choisir la couleur : ${label}`}
-      >
-        <Input
-          aria-label={`Choisir la couleur ${label}`}
-          className="absolute inset-0 size-full cursor-pointer opacity-0"
-          type="color"
-          value={toHex(color)}
-          onChange={(event) => applyHex(event.target.value)}
-        />
-      </label>
-      <label
-        className="min-w-0 flex-1 text-sm font-medium"
-        htmlFor={`hex-${colorKey}`}
-      >
-        {label}
-      </label>
-      <Input
-        id={`hex-${colorKey}`}
-        aria-label={`Code HEX pour ${label}`}
-        autoCapitalize="characters"
-        className="h-8 w-27 font-mono text-xs uppercase"
-        maxLength={9}
-        value={hex}
-        onChange={(event) => applyHex(event.target.value)}
-      />
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className="size-8 shrink-0"
-        aria-label={`Réinitialiser ${label}`}
-        title={`Réinitialiser ${label}`}
-        onClick={() => setHex(toHex(resetColor(colorKey)))}
-      >
-        <RotateCcw className="size-3.5" />
-      </Button>
-    </div>
-  )
-}
+import { PalletteColorRow } from "./pallette-color-row"
 
 export default function ChartColorCustom() {
   const colors = useThemeManagementStore((state) => state.ThemeColorCustom)
@@ -129,7 +51,7 @@ export default function ChartColorCustom() {
             </CardHeader>
             <CardContent className="space-y-3">
               {COLOR_SETTINGS.slice(0, 8).map(({ key, label }) => (
-                <ChartColorRow
+                <PalletteColorRow
                   key={`${key}-${colors[key]}`}
                   colorKey={key}
                   label={label}
@@ -145,7 +67,7 @@ export default function ChartColorCustom() {
             </CardHeader>
             <CardContent className="space-y-3">
               {COLOR_SETTINGS.slice(8).map(({ key, label }) => (
-                <ChartColorRow
+                <PalletteColorRow
                   key={`${key}-${colors[key]}`}
                   colorKey={key}
                   label={label}

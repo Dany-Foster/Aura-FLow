@@ -40,7 +40,7 @@ export default function EntrepriseMenu() {
             render={<SidebarMenuButton size="lg" className="" />}
           >
             <div className="flex w-full items-center gap-2.5">
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <GalleryVerticalEnd className="size-4" />
               </div>
               <div className="grid flex-1 gap-1 text-left text-sm leading-tight">

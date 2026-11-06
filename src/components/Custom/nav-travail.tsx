@@ -1,4 +1,5 @@
 import React from "react"
+import { NavLink } from "react-router"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -10,8 +11,6 @@ import {
 
 export default function NavTravail({
   items,
-  selectItem,
-  setSelectedItem,
 }: {
   items: {
     id: number
@@ -19,8 +18,6 @@ export default function NavTravail({
     url: string
     icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
   }[]
-  selectItem: string
-  setSelectedItem: (item: string) => void
 }) {
   return (
     <SidebarGroup>
@@ -30,16 +27,18 @@ export default function NavTravail({
       <SidebarGroupContent className="flex flex-col gap-4">
         <SidebarMenu className="flex flex-col gap-2">
           {items.map((item, index) => (
-            <SidebarMenuItem key={item.titre}>
-              <SidebarMenuButton
-                key={index}
-                data-active={selectItem === item.titre}
-                onClick={() => setSelectedItem(item.titre)}
-                tooltip={item.titre}
-              >
-                {item.icon && <item.icon />}
-                <span>{item.titre}</span>
-              </SidebarMenuButton>
+            <SidebarMenuItem key={index}>
+              <NavLink to={item.url} className="text-inherit no-underline">
+                {({ isActive }) => (
+                  <SidebarMenuButton
+                    data-active={isActive}
+                    tooltip={item.titre}
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.titre}</span>
+                  </SidebarMenuButton>
+                )}
+              </NavLink>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

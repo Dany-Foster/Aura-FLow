@@ -1,19 +1,20 @@
 import { BellRing, Plus, Search } from "lucide-react"
-import PalletteDrawer from "./components/Custom/palette-drawer"
-import AppSidebar from "./components/ui/app-sidebar"
-import { Button } from "./components/ui/button"
+import { Outlet } from "react-router"
+import PalletteDrawer from "../components/Custom/palette-drawer"
+import PopoverProfil from "../components/Custom/popover-profil"
+import AppSidebar from "../components/ui/app-sidebar"
+import { Button } from "../components/ui/button"
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "./components/ui/input-group"
-import PopoverProfil from "./components/ui/popover-profil"
+} from "../components/ui/input-group"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarSeparator,
   SidebarTrigger,
-} from "./components/ui/sidebar"
+} from "../components/ui/sidebar"
 
 export function App() {
   return (
@@ -26,8 +27,8 @@ export function App() {
       }
     >
       <AppSidebar variant="sidebar" collapsible="icon" />
-      <SidebarInset>
-        <header className="sticky flex h-(--header-height) shrink-0 items-center justify-between gap-2 border-b px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) lg:px-3">
+      <SidebarInset className="">
+        <header className="sticky flex h-(--header-height) shrink-0 items-center justify-between gap-2 border-b px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
           <SidebarTrigger className="ml-2" />
           <div className="flex items-center justify-between gap-2">
             <InputGroup className="w-xs">
@@ -49,6 +50,9 @@ export function App() {
             <PopoverProfil />
           </div>
         </header>
+        <main className="ml-2 px-4 py-2 lg:px-3">
+          <Outlet />
+        </main>
       </SidebarInset>
     </SidebarProvider>
   )

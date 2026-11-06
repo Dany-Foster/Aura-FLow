@@ -2,13 +2,16 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 
 import { ThemeProvider } from "@/components/theme-provider.tsx"
-import App from "./App.tsx"
+import { RouterProvider } from "react-router"
 import "./index.css"
+import { router } from "./Routing/route.tsx"
 
-createRoot(document.getElementById("root")!).render(
+const root = document.getElementById("root")!
+
+createRoot(root).render(
   <StrictMode>
     <ThemeProvider>
-      <App />
+      <RouterProvider router={router} />
     </ThemeProvider>
   </StrictMode>
 )
