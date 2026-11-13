@@ -1,28 +1,32 @@
-import * as React from "react"
 import { type DateRange } from "react-day-picker"
 
 import { Calendar } from "@/components/ui/calendar"
+import { fr } from "date-fns/locale"
 
 export function CalendarCustomDays({
   range,
   setRange,
+  currentMonth,
+  setCurrentMonth,
 }: {
-  range: DateRange | undefined
-  setRange: React.Dispatch<React.SetStateAction<DateRange | undefined>>
+  range: DateRange
+  setRange: (range: DateRange) => void
+  currentMonth: Date
+  setCurrentMonth: (date: Date) => void
 }) {
-  const [currentMonth, setCurrentMonth] = React.useState<Date>(
-    new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-  )
   return (
     <Calendar
+      locale={fr}
       mode="range"
       defaultMonth={range?.from}
       selected={range}
-      onSelect={setRange}
+      onSelect={setRange as (range: DateRange | undefined) => void}
       month={currentMonth}
       onMonthChange={setCurrentMonth}
       numberOfMonths={1}
-      className="mx-auto w-fit p-0 text-primary"
+      fixedWeeks
+      weekStartsOn={1}
+      className="mx-auto w-fit p-0 text-primary capitalize"
       formatters={{
         formatMonthDropdown: (date) => {
           const Date = date.toLocaleString("default", { month: "long" })

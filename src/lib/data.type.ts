@@ -310,8 +310,6 @@ export const ListItemColors: ItemColorSelected[] = [
 ]
 
 export const DateList = [
-  { label: "Aujourd'hui", value: "T" },
-  { label: "Hier", value: "H" },
   { label: "Cette semaine", value: "S" },
   { label: "Il y a 7 jours", value: "-7J" },
   { label: "Il y a 28 jours", value: "-28J" },
